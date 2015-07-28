@@ -1,0 +1,142 @@
+{
+    "action": "upsert",
+    "amw_key": "iHM_UPC",
+    "artist": {
+        "name": "Artist"
+    },
+    "catalog_number": "catalognumber",
+    "copyright": {
+        "text": "2015 Copyright",
+        "year": 2015
+    },
+    "duration": 1000,
+    "explicit_lyrics": true,
+    "genre": "Rock",
+    "internal_id": "internalid",
+    "media": {
+        "source": "/dev/null"
+    },
+    "provider": {
+        "labels": [
+            {
+                "name": "Label",
+                "sub_labels": [
+                    {
+                        "countries": [
+                            "CA",
+                            "US"
+                        ],
+                        "name": "Sub Label"
+                    }
+                ]
+            }
+        ],
+        "name": "Provider"
+    },
+    "release": {
+        "date": "2015-04-01",
+        "year": 2015
+    },
+    "sales_territories": [
+        {
+            "country_code": "US",
+            "sales_start_date": "2015-04-03"
+        }
+    ],
+    "title": "Title",
+    "track_count": 1,
+    "tracks": [
+        {
+            "action": "upsert",
+            "amw_key": "iHM_UPC_ISRC",
+            "artist": {
+                "name": "Artist"
+            },
+            "copyright": {
+                "text": "2015 Copyright",
+                "year": 2015
+            },
+            "explicit_lyrics": false,
+            "index": 0,
+            "isrc": "ISRC",
+            "genre": "Genre",
+            "media": {
+                "source": "/dev/null"
+            },
+            "provider": {
+                "labels": [
+                    {
+                        "name": "Label",
+                        "sub_labels": [
+                            {
+                                "countries": [
+                                    "CA",
+                                    "US"
+                                ],
+                                "name": "Sub Label"
+                            }
+                        ]
+                    }
+                ],
+                "name": "Provider"
+            },
+            "release": {
+                "date": "2015-04-01",
+                "year": 2015
+            },
+            "sales_territories": [
+                {
+                    "country_code": "US",
+                    "sales_start_date": "2015-04-03"
+                }
+            ],
+            "title": "Title",
+            "usage_rules": {
+                "allow_bundle": true,
+                "allow_burn_play_on_pc": true,
+                "allow_mobile": true,
+                "allow_promotional": true,
+                "allow_subscription": true,
+                "allow_transfer_to_nsdmi": true,
+                "allow_transfer_to_sdmi": true,
+                "allow_unbundle": true,
+                "burn_count": 1,
+                "delete_on_clock_rollback": true,
+                "disable_on_clock_rollback": true,
+                "drm_free": true,
+                "limited": true,
+                "minimum_app_security": 1,
+                "pm_app_security": 1,
+                "rights_allowed": true,
+                "transfer_count": 1
+            },
+            "volume": 1,
+            "number": 1
+        }
+    ],
+    "type": "Album",
+    "upc": "UPC",
+    "usage_rules": {
+        "allow_bundle": true,
+        "allow_burn_play_on_pc": true,
+        "allow_burn_to_cd": true,
+        "allow_mobile": true,
+        "allow_permanent": true,
+        "allow_promotional": true,
+        "allow_streaming": true,
+        "allow_subscription": true,
+        "allow_transfer_to_nsdmi": true,
+        "allow_transfer_to_sdmi": true,
+        "allow_unbundle": true,
+        "burn_count": 1,
+        "delete_on_clock_rollback": true,
+        "disable_on_clock_rollback": true,
+        "drm_free": true,
+        "limited": true,
+        "minimum_app_security": 1,
+        "pm_app_security": 1,
+        "rights_allowed": true,
+        "transfer_count": 1
+    },
+    "volume_count": 1
+}
