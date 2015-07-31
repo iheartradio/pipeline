@@ -235,7 +235,8 @@ Args:
     version (Optional[str]): The product's version.
 """
 
-track_schema = {
+track_schema = product.schema.copy()
+track_schema.update({
     'genre': str,
     'index': int,
     Optional('internal_id'): str,
@@ -244,8 +245,7 @@ track_schema = {
     Optional('title_extended'): str,
     'volume': int,
     Optional('windows_drm_id'): str,
-}
-track_schema.update(product.schema)
+})
 
 track = SchemaAllRequired(track_schema)
 """Schema to validate a track.
@@ -264,7 +264,8 @@ Args:
     windows_drm_id (Optional[str]): The track's Windows DRM ID.
 """
 
-track_bundle_schema = {
+track_bundle_schema = product.schema.copy()
+track_bundle_schema.update({
     Optional('catalog_number'): str,
     Optional('ean'): str,
     Optional('grid'): str,
@@ -277,8 +278,7 @@ track_bundle_schema = {
     'type': str,
     'upc': str,
     'volume_count': int,
-}
-track_bundle_schema.update(product.schema)
+})
 
 track_bundle = SchemaAllRequired(track_bundle_schema)
 """Schema to validate a track bundle.
