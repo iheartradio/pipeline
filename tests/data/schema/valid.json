@@ -103,15 +103,10 @@
                 "allow_transfer_to_nsdmi": true,
                 "allow_transfer_to_sdmi": true,
                 "allow_unbundle": true,
-                "burn_count": 1,
                 "delete_on_clock_rollback": true,
                 "disable_on_clock_rollback": true,
                 "drm_free": true,
-                "limited": true,
-                "minimum_app_security": 1,
-                "pm_app_security": 1,
-                "rights_allowed": true,
-                "transfer_count": 1
+                "limited": true
             },
             "volume": 1,
             "number": 1
@@ -131,15 +126,10 @@
         "allow_transfer_to_nsdmi": true,
         "allow_transfer_to_sdmi": true,
         "allow_unbundle": true,
-        "burn_count": 1,
         "delete_on_clock_rollback": true,
         "disable_on_clock_rollback": true,
         "drm_free": true,
-        "limited": true,
-        "minimum_app_security": 1,
-        "pm_app_security": 1,
-        "rights_allowed": true,
-        "transfer_count": 1
+        "limited": true
     },
     "volume_count": 1
 }

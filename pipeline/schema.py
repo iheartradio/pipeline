@@ -156,15 +156,10 @@ usage_rules = SchemaAllRequired({
     'allow_transfer_to_nsdmi': bool,
     'allow_transfer_to_sdmi': bool,
     'allow_unbundle': bool,
-    'burn_count': int,
     'delete_on_clock_rollback': bool,
     'disable_on_clock_rollback': bool,
     'drm_free': bool,
     'limited': bool,
-    'minimum_app_security': int,
-    'pm_app_security': int,
-    'rights_allowed': bool,
-    'transfer_count': int,
 })
 """Schema to validate usage rules.
 
@@ -180,17 +175,12 @@ Args:
     allow_transfer_to_nsdmi (bool): The allowtransfertonsdmi usage rule.
     allow_transfer_to_sdmi (bool): The allowtransfertosdmi usage rule.
     allow_unbundle (bool): The allowunbundle usage rule.
-    burn_count (int): The burncount usage rule.
     delete_on_clock_rollback (bool): The deleteonclockrollback usage
         rule.
     disable_on_clock_rollback (bool): The disableonclockrollback usage
         rule.
     drm_free (bool): The drmfree usage rule.
     limited (bool): The limited usage rule.
-    minimum_app_security (int): The minimumappsecurity usage rule.
-    pm_app_security (int): The pmappsecurity usage rule.
-    rights_allowed (bool): The rightsallowed usage rule.
-    transfer_count (int): The transfercount usage rule.
 """
 
 
