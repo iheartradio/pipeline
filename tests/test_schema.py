@@ -4,6 +4,7 @@ import json
 import os
 
 import pytest
+import voluptuous
 
 from pipeline import schema
 
@@ -46,6 +47,46 @@ def test_invalid_track_bundle_action():
     doc = load_json('invalid-track-bundle-action.json')
     with pytest.raises(schema.MultipleInvalid):
         schema.track_bundle(doc)
+
+
+def test_iter_errors_multipleinvalid():
+    """Test that iter_errors handles multiple errors."""
+    data = {'a': '1'}
+    test_schema = voluptuous.Schema({'a': int, 'b': str}, required=True)
+    try:
+        test_schema(data)
+    except schema.MultipleInvalid as e:
+        errors = list(schema.iter_errors(e, data))
+
+    assert len(errors) == 2
+
+
+def test_iter_errors_requiredfieldinvalid():
+    """Test iter_errors with a required field."""
+    data = {'a': 1}
+    test_schema = voluptuous.Schema({'a': int, 'b': str}, required=True)
+    try:
+        test_schema(data)
+    except schema.MultipleInvalid as e:
+        error = next(schema.iter_errors(e, data))
+
+    assert isinstance(error.error, voluptuous.RequiredFieldInvalid)
+    assert error.message == str(error.error)
+    assert error.value is None
+
+
+def test_iter_errors_typeinvalid():
+    """Test iter_errors with an invalid type."""
+    data = {'a': '1'}
+    test_schema = voluptuous.Schema({'a': int})
+    try:
+        test_schema(data)
+    except schema.MultipleInvalid as e:
+        error = next(schema.iter_errors(e, data))
+
+    assert isinstance(error.error, schema.TypeInvalid)
+    assert error.message.endswith('got str')
+    assert error.value == '1'
 
 
 def test_missing_track_usage_rules():
