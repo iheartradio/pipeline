@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 0.1.2
+=============
+
+Release 2015-08-17
+
+- Move release to track bundle
+
 Version 0.1.1
 =============
 
