@@ -196,7 +196,6 @@ product = SchemaAllRequired({
     'media': media,
     'provider': provider,
     Optional('publisher'): str,
-    'release': release,
     'sales_territories': [sales_territory],
     'title': str,
     'usage_rules': usage_rules,
@@ -217,7 +216,6 @@ Args:
     media (media): Media files associated with the product.
     provider (provider): The product's provider.
     publisher (Optional[str]): The product's publisher.
-    release (release): The product's release date.
     sales_territories (list): A list of sales territories for the
         product.
     title (str): The product's title.
@@ -263,6 +261,7 @@ track_bundle_schema.update({
     'internal_id': str,
     Optional('physical'): physical_product,
     Optional('product_code'): str,
+    'release': release,
     'track_count': int,
     'tracks': [track],
     'type': str,
@@ -286,6 +285,7 @@ Args:
     physical: (Optional[physical_product]): The track bundle's physical
         representation.
     product_code (Optional[str]): The track bundle's product code.
+    release (release): The product's release date.
     track_count (int): The number of tracks.
     tracks (list): A list of tracks.
     type (str): The product type.

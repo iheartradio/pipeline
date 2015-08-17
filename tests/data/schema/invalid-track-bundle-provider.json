@@ -63,10 +63,6 @@
                 ],
                 "name": "Provider"
             },
-            "release": {
-                "date": "2015-04-01",
-                "year": 2015
-            },
             "sales_territories": [
                 {
                     "country_code": "US",
