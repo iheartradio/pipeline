@@ -5,20 +5,20 @@ Changelog
 Version 0.1.2
 =============
 
-Release 2015-08-17
+Released 2015-08-17
 
 - Move release to track bundle
 
 Version 0.1.1
 =============
 
-Release 2015-08-13
+Released 2015-08-13
 
 - Remove unsupported usage rules
 
 Version 0.1.0
 =============
 
-Release 2015-07-31
+Released 2015-07-31
 
 - Initial release
