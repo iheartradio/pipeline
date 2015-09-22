@@ -1,6 +1,9 @@
 """Common utilities for the Ingestion Pipeline."""
 
-__all__ = ('ignore_provider',)
+from datetime import datetime
+import uuid
+
+__all__ = ('ignore_provider', 'prepare_message')
 
 
 def ignore_provider(provider, included=None, excluded=None):
@@ -27,3 +30,28 @@ def ignore_provider(provider, included=None, excluded=None):
         return provider not in included
 
     return provider in (excluded or ())
+
+
+def prepare_message(message, *, app_name, event):
+    """Return a message with the common message structure.
+
+    Args:
+        message (dict): The message to prepare.
+        app_name (str): The name of the application sending the message.
+        event (str): The name of the event that created the message.
+
+    Returns:
+        dict: The prepared message.
+
+    .. versionadded:: 0.2.0
+    """
+    # Make sure the job id exists and has a value.
+    if not message.get('job_id'):
+        message['job_id'] = str(uuid.uuid4())
+    message['app'] = app_name
+    message['event'] = event
+    message['updated_at'] = datetime.utcnow().isoformat()
+    # Make sure the origination time exists and has a value.
+    if not message.get('originated_at'):
+        message['originated_at'] = message['updated_at']
+    return message

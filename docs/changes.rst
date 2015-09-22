@@ -7,6 +7,9 @@ Version 0.2.0
 
 Release TBD
 
+- Add ``prepare_message`` to handle formatting messages with the common message
+  structure
+
 Version 0.1.2
 =============
 
