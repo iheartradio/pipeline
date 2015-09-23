@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from pipeline import prepare_message
+from pipeline import prepare_message, send_message
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
@@ -78,3 +78,19 @@ def test_prepare_message_updated_at_is_datetime():
     actual = prepare_message({}, app_name='testing', event='tested')
     assert isinstance(
         datetime.strptime(actual['updated_at'], DATETIME_FORMAT), datetime)
+
+
+def test_send_message():
+    """Test that the provided message is sent."""
+    class Producer:
+        app_name = 'testing'
+        sent_message = None
+
+        def send(self, message):
+            self.sent_message = message
+
+    producer = Producer()
+    expected = {'message': 'test_message'}
+    send_message(expected, producer=producer, event='tested')
+
+    assert producer.sent_message['message'] == expected['message']

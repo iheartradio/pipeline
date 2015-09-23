@@ -3,7 +3,7 @@
 from datetime import datetime
 import uuid
 
-__all__ = ('ignore_provider', 'prepare_message')
+__all__ = ('ignore_provider', 'prepare_message', 'send_message')
 
 
 def ignore_provider(provider, included=None, excluded=None):
@@ -55,3 +55,21 @@ def prepare_message(message, *, app_name, event):
     if not message.get('originated_at'):
         message['originated_at'] = message['updated_at']
     return message
+
+
+def send_message(message, *, producer, event):
+    """Send an outgoing message.
+
+    ``message`` will be updated with the common message structure and
+    send through the specified producer.
+
+    Args:
+        message (dict): The message to send.
+        producer: The product through which to send the message.
+        event (str): The name of the event that created the message.
+
+    .. versionadded:: 0.2.0
+    """
+    prepared_message = prepare_message(
+        message, app_name=producer.app_name, event=event)
+    producer.send(prepared_message)
