@@ -7,6 +7,11 @@ Version 0.2.0
 
 Release TBD
 
+- Add ``prepare_message`` to handle formatting messages with the common message
+  structure
+- Add ``send_message`` to handle sending messages through the specified
+  producer
+
 Version 0.1.2
 =============
 
