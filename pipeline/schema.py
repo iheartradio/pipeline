@@ -4,14 +4,29 @@
 # solely for Sphinx's autodoc. They are not useful Python docstrings and
 # cannot be consumed by help() or a REPL.
 
+from collections import namedtuple
 from functools import partial
 
 # Import multipleInvalid to expose it through the module.
-from voluptuous import MultipleInvalid, Optional, Schema, truth  # NOQA
+from voluptuous import MultipleInvalid, Optional, Schema, truth, TypeInvalid  # NOQA
 
 SchemaAllRequired = partial(Schema, required=True)
 
 VALID_ACTIONS = ('upsert', 'takedown')
+
+
+ValidationError = namedtuple('ValidationError', 'error message value')
+"""A wrapper around a validation error.
+
+Args:
+    error (voluptuous.Error): The validation error.
+    message (str): A friendly error message. If provided, more
+        information than the message associated with ``error``.
+    value: The value that failed validation. This will only be provided
+        when the object being validated contained the field.
+
+.. versionadded:: 0.2.0
+"""
 
 
 @truth
@@ -25,6 +40,41 @@ def _is_valid_action(action):
         bool: Whether the action is valid.
     """
     return action.lower() in VALID_ACTIONS
+
+
+def iter_errors(exc, data):
+    """Return a generator containing validation errors.
+
+    Args:
+        exc (voluptuous.MultipleInvalid): The exception raised when
+            validating against a schema.
+        data (dict): The document being validated.
+
+    Yields:
+        ValidationError: The error.
+
+    .. versionadded:: 0.2.0
+    """
+    # Get a copy of the original value so data can be reset in the loop.
+    original = data
+
+    # Loop through all the errors and yield the error message and the
+    # value to which it refers.
+    for error in exc.errors:
+        data = None
+        if isinstance(error, TypeInvalid):
+            data = original
+
+            # voluptuous provides a path of keys and indexes that can be
+            # used to retrieve the value.
+            for key_or_index in error.path:
+                data = data.__getitem__(key_or_index)
+
+            msg = '{}, got {}'.format(error, type(data).__name__)
+        else:
+            msg = str(error)
+
+        yield ValidationError(error, msg, data)
 
 
 # shared sub-types

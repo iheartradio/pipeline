@@ -26,3 +26,11 @@ Available schemas
 
 .. automodule:: pipeline.schema
    :members:
+   :exclude-members: iter_errors, ValidationError
+
+Error handling
+==============
+
+.. autoclass:: pipeline.schema.ValidationError
+
+.. autofunction:: pipeline.schema.iter_errors

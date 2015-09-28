@@ -11,6 +11,7 @@ Release TBD
   structure
 - Add ``send_message`` to handle sending messages through the specified
   producer
+- Add function to iterate over schema validation error messages
 
 Version 0.1.2
 =============
