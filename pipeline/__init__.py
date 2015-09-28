@@ -61,7 +61,7 @@ def send_message(message, *, producer, event):
     """Send an outgoing message.
 
     ``message`` will be updated with the common message structure and
-    send through the specified producer.
+    sent through the specified producer.
 
     Args:
         message (dict): The message to send.
