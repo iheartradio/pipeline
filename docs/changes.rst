@@ -12,6 +12,8 @@ Release TBD
 - Add ``send_message`` to handle sending messages through the specified
   producer
 - Add function to iterate over schema validation error messages
+- Add ``send_error`` to handle sending error messages through the specified
+  producer
 
 Version 0.1.2
 =============
