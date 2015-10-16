@@ -89,6 +89,17 @@ Args:
     url (Optional[str]): The artist's URL.
 """
 
+participant = SchemaAllRequired({
+    'name': str,
+    'role': str,
+})
+"""Schema to validate a participant.
+
+Args:
+    name (str): The participant's name.
+    role (str): The participant's role on the track.
+"""
+
 copyright = SchemaAllRequired({
     'text': str,
     Optional('year'): int,
@@ -280,6 +291,7 @@ track_schema.update({
     Optional('internal_id'): str,
     'isrc': str,
     'number': int,
+    Optional('participants'): [participant],
     Optional('title_extended'): str,
     'volume': int,
     Optional('windows_drm_id'): str,
@@ -340,7 +352,7 @@ Args:
     tracks (list): A list of tracks.
     type (str): The product type.
     upc (str): The track bundle's Universal Product Code.
-    volume (int): The number of volumes that make up the track bundle.
+    volume_count (int): The number of volumes that make up the track bundle.
 """
 
 del track_schema
