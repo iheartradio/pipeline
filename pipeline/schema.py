@@ -254,6 +254,7 @@ product = SchemaAllRequired({
     Optional('duration'): int,
     'explicit_lyrics': bool,
     'genre': str,
+    Optional('internal_id'): str,
     'media': media,
     'provider': provider,
     Optional('publisher'): str,
@@ -274,6 +275,7 @@ Args:
     explicit_lyrics (bool): Whether the product contains explicit
         lyrics.
     genre (str): The product's genre.
+    internal_id (Optional[int]): The track's internal identifier.
     media (media): Media files associated with the product.
     provider (provider): The product's provider.
     publisher (Optional[str]): The product's publisher.
@@ -288,7 +290,6 @@ track_schema = product.schema.copy()
 track_schema.update({
     'genre': str,
     'index': int,
-    Optional('internal_id'): str,
     'isrc': str,
     'number': int,
     Optional('participants'): [participant],
@@ -305,7 +306,6 @@ This schema is an extension of the :data:`product` schema.
 Args:
     index (int): The track's index on the track bundle. This is often,
         but not always, based on the ``number``.
-    internal_id (Optional[int]): The track's internal identifier.
     isrc (str): The track's International Standard Recording Code.
     number (int): The track's number on the track bundle.
     title_extended (Optional[str]): The track's extended title.
@@ -320,7 +320,6 @@ track_bundle_schema.update({
     Optional('ean'): str,
     Optional('grid'): str,
     Optional('icpn'): str,
-    'internal_id': str,
     Optional('physical'): physical_product,
     Optional('product_code'): str,
     'release': release,
@@ -343,7 +342,6 @@ Args:
     grid (Optional[str]): The track bundle's Global Release Identifier.
     icpn (Optional[str]): The track bundle's International Code Product
         Number.
-    internal_id (Optional[int]): The track bundle's internal identifier.
     physical: (Optional[physical_product]): The track bundle's physical
         representation.
     product_code (Optional[str]): The track bundle's product code.
