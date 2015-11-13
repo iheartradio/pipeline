@@ -14,6 +14,7 @@ Release TBD
 - Add function to iterate over schema validation error messages
 - Add ``send_error`` to handle sending error messages through the specified
   producer
+- Add settings module to provide settings available to all pipeline services
 
 Version 0.1.2
 =============
