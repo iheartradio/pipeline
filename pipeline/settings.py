@@ -3,7 +3,6 @@
 from decouple import config
 
 KAFKA_ASYNC = config('KAFKA_ASYNC', cast=bool, default=False)
-KAFKA_BATCH_SEND = config('KAFKA_BATCH_SEND', cast=bool, default=False)
 KAFKA_BATCH_SEND_COUNT = config('KAFKA_BATCH_SEND_COUNT', cast=int, default=20)
 KAFKA_BATCH_SEND_TIME = config('KAFKA_BATCH_SEND_TIME', cast=int, default=60)
 KAFKA_BROKER_HOST = config('KAFKA_BROKER_HOST')
