@@ -5,7 +5,7 @@ Changelog
 Version 0.2.0
 =============
 
-Release TBD
+Released 2015-11-19
 
 - Add ``prepare_message`` to handle formatting messages with the common message
   structure
