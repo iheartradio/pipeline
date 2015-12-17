@@ -65,7 +65,7 @@ def prepare_message(message, *, app_name, event):
     return message
 
 
-def send_error(message, *, producer):
+async def send_error(message, *, producer):
     """Send an error message.
 
     ``message`` will be updated with the common message structure and
@@ -75,15 +75,19 @@ def send_error(message, *, producer):
         message (dict): The message to send.
         producer: The product through which to send the message.
 
+    .. versionchanged:: 0.3.0
+
+        This function is now a coroutine.
+
     .. versionadded:: 0.2.0
     """
     # Preserve the incoming event.
     prepared_message = prepare_message(
         message, app_name=producer.app_name, event=message.get('event'))
-    producer.error(prepared_message)
+    await producer.error(prepared_message)
 
 
-def send_message(message, *, producer, event):
+async def send_message(message, *, producer, event):
     """Send an outgoing message.
 
     ``message`` will be updated with the common message structure and
@@ -94,8 +98,12 @@ def send_message(message, *, producer, event):
         producer: The product through which to send the message.
         event (str): The name of the event that created the message.
 
+    .. versionchanged:: 0.3.0
+
+        This function is now a coroutine.
+
     .. versionadded:: 0.2.0
     """
     prepared_message = prepare_message(
         message, app_name=producer.app_name, event=event)
-    producer.send(prepared_message)
+    await producer.send(prepared_message)
