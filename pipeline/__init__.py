@@ -6,30 +6,38 @@ import uuid
 __all__ = ('ignore_provider', 'prepare_message', 'send_error', 'send_message')
 
 
-def ignore_provider(provider, included=None, excluded=None):
+async def ignore_provider(app, provider):
     """Return whether a provider should be ignored.
 
-    If ``included`` is not empty, this function will return ``False``
-    for any provider in the list and ``True`` for all other providers.
-    The provider will only be checked against ``excluded`` when
-    ``included`` is empty.
+    This function will check for ``INCLUDED_PROVIDERS`` and
+    ``EXCLUDED_PROVIDERS`` settings on ``app`` If the former is not
+    empty, ``False`` will be returned for any provider in the list and
+    ``True`` for all other providers. The provider will only be checked
+    against ``EXCLUDED_PROVIDERS`` when the list of included providers
+    is empty.
 
     Args:
+        app (henson.base.Application): The application instance that
+            received the message.
         provider (str): The identifier of the provider to check.
-        included (list, optional): A list of all providers not to
-          ignore.
-        excluded (list, optional): A list of providers that should be
-          ignored.
 
     Returns:
         bool: True if the provider should be ignored.
+
+    .. versionchanged:: 0.3.0
+
+        This function is now a coroutine and can be used as a message
+        preprocessor. While it does nothing blocking, regular functions
+        can't be used. Its arguments have changed to reflect the
+        required signature of a preprocessor.
     """
+    included = app.settings.get('INCLUDED_PROVIDERS')
     if included:
         # If there is a list of included providers, it is the only thing
         # checked to determine whether or not to ignore the provider.
         return provider not in included
 
-    return provider in (excluded or ())
+    return provider in (app.settings.get('EXCLUDED_PROVIDERS') or ())
 
 
 def prepare_message(message, *, app_name, event):
