@@ -3,6 +3,7 @@
 import json
 import os
 
+from henson.exceptions import Abort
 import pytest
 import voluptuous
 
@@ -128,3 +129,28 @@ def test_valid():
     """Test a valid document."""
     doc = load_json('valid.json')
     assert schema.track_bundle(doc) == doc
+
+
+@pytest.mark.parametrize('schema_, expected', (
+    (voluptuous.Schema(str), 'a'),
+    (voluptuous.Schema([int]), [1, 2]),
+    (
+        voluptuous.Schema({'a': int}, extra=voluptuous.ALLOW_EXTRA),
+        {'a': 1, 'b': 'c'}
+    ),
+))
+def test_validate_message(schema_, expected):
+    """Test a message that validates its schema."""
+    actual = schema.validate_schema(schema_, expected)
+    assert actual == expected
+
+
+@pytest.mark.parametrize('schema_, message', (
+    (voluptuous.Schema(str), 1),
+    (voluptuous.Schema([int]), [1, 'a']),
+    (voluptuous.Schema({'a': int}), {'a': 1, 'b': 2}),
+))
+def test_validate_message_invalid(schema_, message):
+    """Test that invalid messages fail to validate."""
+    with pytest.raises(Abort):
+        schema.validate_schema(schema_, message)
