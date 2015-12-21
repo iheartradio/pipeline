@@ -2,6 +2,8 @@
 
 from datetime import datetime
 
+import pytest
+
 from pipeline import prepare_message, send_error, send_message
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
@@ -80,33 +82,35 @@ def test_prepare_message_updated_at_is_datetime():
         datetime.strptime(actual['updated_at'], DATETIME_FORMAT), datetime)
 
 
-def test_send_error():
+@pytest.mark.asyncio
+async def test_send_error():
     """Test that the provided message is sent."""
     class Producer:
         app_name = 'testing'
         sent_message = None
 
-        def error(self, message):
+        async def error(self, message):
             self.sent_message = message
 
     producer = Producer()
     expected = {'message': 'test_message'}
-    send_error(expected, producer=producer)
+    await send_error(expected, producer=producer)
 
     assert producer.sent_message['message'] == expected['message']
 
 
-def test_send_message():
+@pytest.mark.asyncio
+async def test_send_message():
     """Test that the provided message is sent."""
     class Producer:
         app_name = 'testing'
         sent_message = None
 
-        def send(self, message):
+        async def send(self, message):
             self.sent_message = message
 
     producer = Producer()
     expected = {'message': 'test_message'}
-    send_message(expected, producer=producer, event='tested')
+    await send_message(expected, producer=producer, event='tested')
 
     assert producer.sent_message['message'] == expected['message']

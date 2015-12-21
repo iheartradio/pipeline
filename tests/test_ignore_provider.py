@@ -1,45 +1,87 @@
 """Test ignore_provider."""
 
+import pytest
+
 from pipeline import ignore_provider
 
 TEST_PROVIDER = 'testing'
 
 
-def test_empty_lists():
+@pytest.mark.asyncio
+async def test_empty_lists(test_app):
     """Test ignore_provider with empty lists of providers."""
-    assert not ignore_provider(TEST_PROVIDER, included=[], excluded=[])
+    test_app.settings['INCLUDED_PROVIDERS'] = []
+    test_app.settings['EXCLUDED_PROVIDERS'] = []
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert not actual
 
 
-def test_excluded():
+@pytest.mark.asyncio
+async def test_excluded(test_app):
     """Test ignore_provider with excluded providers."""
-    assert not ignore_provider(
-        TEST_PROVIDER, included=[], excluded=[TEST_PROVIDER + '1'])
+    test_app.settings['INCLUDED_PROVIDERS'] = []
+    test_app.settings['EXCLUDED_PROVIDERS'] = [TEST_PROVIDER + '1']
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert not actual
 
 
-def test_excluded_ignore():
+@pytest.mark.asyncio
+async def test_excluded_ignore(test_app):
     """Test ignore_provider ignores with excluded providers."""
-    assert ignore_provider(
-        TEST_PROVIDER, included=[], excluded=[TEST_PROVIDER])
+    test_app.settings['INCLUDED_PROVIDERS'] = []
+    test_app.settings['EXCLUDED_PROVIDERS'] = [TEST_PROVIDER]
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert actual
 
 
-def test_included():
+@pytest.mark.asyncio
+async def test_included(test_app):
     """Test ignore_provider with included providers."""
-    assert not ignore_provider(
-        TEST_PROVIDER, included=[TEST_PROVIDER], excluded=[])
+    test_app.settings['INCLUDED_PROVIDERS'] = [TEST_PROVIDER]
+    test_app.settings['EXCLUDED_PROVIDERS'] = []
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert not actual
 
 
-def test_included_ignore():
+@pytest.mark.asyncio
+async def test_included_ignore(test_app):
     """Test ignore_provider ignores with included providers."""
-    assert ignore_provider(
-        TEST_PROVIDER, included=[TEST_PROVIDER + '1'], excluded=[])
+    test_app.settings['INCLUDED_PROVIDERS'] = [TEST_PROVIDER + '1']
+    test_app.settings['EXCLUDED_PROVIDERS'] = []
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert actual
 
 
-def test_included_and_excluded():
+@pytest.mark.asyncio
+async def test_included_and_excluded(test_app):
     """Test ignore_provider with included and excluded providers."""
-    assert not ignore_provider(
-        TEST_PROVIDER, included=[TEST_PROVIDER], excluded=[TEST_PROVIDER])
+    test_app.settings['INCLUDED_PROVIDERS'] = [TEST_PROVIDER]
+    test_app.settings['EXCLUDED_PROVIDERS'] = [TEST_PROVIDER]
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert not actual
 
 
-def test_none():
+@pytest.mark.asyncio
+async def test_no_providers(test_app):
     """Test ignore_provider with no providers."""
-    assert not ignore_provider(TEST_PROVIDER, included=None, excluded=None)
+    test_app.settings.pop('INCLUDED_PROVIDERS', None)
+    test_app.settings.pop('EXCLUDED_PROVIDERS', None)
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert not actual
+
+
+@pytest.mark.asyncio
+async def test_none(test_app):
+    """Test ignore_provider with none providers."""
+    test_app.settings['INCLUDED_PROVIDERS'] = None
+    test_app.settings['EXCLUDED_PROVIDERS'] = None
+
+    actual = await ignore_provider(test_app, TEST_PROVIDER)
+    assert not actual
