@@ -24,7 +24,6 @@ Contents:
 
    api
    schemas
-   settings
    changes
 
 
