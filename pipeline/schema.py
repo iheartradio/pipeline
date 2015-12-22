@@ -7,8 +7,11 @@
 from collections import namedtuple
 from functools import partial
 
+from henson.exceptions import Abort
 # Import multipleInvalid to expose it through the module.
 from voluptuous import MultipleInvalid, Optional, Schema, truth, TypeInvalid  # NOQA
+
+__all__ = ('iter_errors', 'validate_schema')
 
 SchemaAllRequired = partial(Schema, required=True)
 
@@ -75,6 +78,31 @@ def iter_errors(exc, data):
             msg = str(error)
 
         yield ValidationError(error, msg, data)
+
+
+def validate_schema(schema, message, logger=None):
+    """Validate a message against a schema.
+
+    Args:
+        schema (voluptuous.Schema): The schema against which to
+            validate.
+        message (dict): The message to validate.
+        logger (Optional[logging.RootLogger]): An instance of a logger
+            that, if provided, will be used to log the schema validation
+            errors.
+
+    Returns:
+        dict: The validated message upon successful validation.
+
+    .. versionadded:: 0.3.0
+    """
+    try:
+        return schema(message)
+    except MultipleInvalid as e:
+        if logger is not None:
+            logger.error(
+                'schema.invalid', errors=list(iter_errors(e, data=message)))
+        raise Abort('schema.invalid', message)
 
 
 # shared sub-types
