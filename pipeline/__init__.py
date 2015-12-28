@@ -100,7 +100,7 @@ async def send_error(message, *, producer):
     """
     # Preserve the incoming event.
     prepared_message = prepare_message(
-        message, app_name=producer.app_name, event=message.get('event'))
+        message, app_name=producer.app.name, event=message.get('event'))
     await producer.error(prepared_message)
 
 
@@ -122,5 +122,5 @@ async def send_message(message, *, producer, event):
     .. versionadded:: 0.2.0
     """
     prepared_message = prepare_message(
-        message, app_name=producer.app_name, event=event)
+        message, app_name=producer.app.name, event=event)
     await producer.send(prepared_message)

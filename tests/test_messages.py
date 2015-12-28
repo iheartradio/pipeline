@@ -83,34 +83,18 @@ def test_prepare_message_updated_at_is_datetime():
 
 
 @pytest.mark.asyncio
-async def test_send_error():
+async def test_send_error(test_producer):
     """Test that the provided message is sent."""
-    class Producer:
-        app_name = 'testing'
-        sent_message = None
-
-        async def error(self, message):
-            self.sent_message = message
-
-    producer = Producer()
     expected = {'message': 'test_message'}
-    await send_error(expected, producer=producer)
+    await send_error(expected, producer=test_producer)
 
-    assert producer.sent_message['message'] == expected['message']
+    assert test_producer.sent_error['message'] == expected['message']
 
 
 @pytest.mark.asyncio
-async def test_send_message():
+async def test_send_message(test_producer):
     """Test that the provided message is sent."""
-    class Producer:
-        app_name = 'testing'
-        sent_message = None
-
-        async def send(self, message):
-            self.sent_message = message
-
-    producer = Producer()
     expected = {'message': 'test_message'}
-    await send_message(expected, producer=producer, event='tested')
+    await send_message(expected, producer=test_producer, event='tested')
 
-    assert producer.sent_message['message'] == expected['message']
+    assert test_producer.sent_message['message'] == expected['message']
