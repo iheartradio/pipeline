@@ -3,10 +3,12 @@
 from datetime import datetime
 import uuid
 
+from henson.exceptions import Abort
+
 __all__ = ('ignore_provider', 'prepare_message', 'send_error', 'send_message')
 
 
-async def ignore_provider(app, provider):
+async def ignore_provider(app, message):
     """Return whether a provider should be ignored.
 
     This function will check for ``INCLUDED_PROVIDERS`` and
@@ -16,13 +18,21 @@ async def ignore_provider(app, provider):
     against ``EXCLUDED_PROVIDERS`` when the list of included providers
     is empty.
 
+    The schema of the incoming message should be validated before using
+    this function.
+
     Args:
         app (henson.base.Application): The application instance that
             received the message.
-        provider (str): The identifier of the provider to check.
+        message (dict): The incoming message. It should contain a key
+            named ``'provider'``.
 
     Returns:
-        bool: True if the provider should be ignored.
+        dict: The incoming message.
+
+    Raises:
+        henson.exceptions.Abort: The provider should be ignored.
+        KeyError: No provider is included in the message.
 
     .. versionchanged:: 0.3.0
 
@@ -31,13 +41,20 @@ async def ignore_provider(app, provider):
         can't be used. Its arguments have changed to reflect the
         required signature of a preprocessor.
     """
+    provider = message['provider']
+
     included = app.settings.get('INCLUDED_PROVIDERS')
     if included:
         # If there is a list of included providers, it is the only thing
         # checked to determine whether or not to ignore the provider.
-        return provider not in included
+        if provider not in included:
+            # If the provider isn't listed, ignore it.
+            raise Abort('provider.ignored', message)
+    elif provider in (app.settings.get('EXCLUDED_PROVIDERS') or ()):
+        # If the provider is listed, ignore it.
+        raise Abort('provider.ignored', message)
 
-    return provider in (app.settings.get('EXCLUDED_PROVIDERS') or ())
+    return message
 
 
 def prepare_message(message, *, app_name, event):
