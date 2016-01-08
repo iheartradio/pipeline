@@ -7,6 +7,12 @@ Version 0.3.0
 
 Release TBD
 
+- Make ``ignore_provider``, ``send_message``, and ``send_error`` into
+  coroutines
+- Add ``validate_schema`` to handle validating document schemas
+- Add additional fields to media schema for audio files
+- Remove settings module (*Backward Incompatible*)
+
 Version 0.2.0
 =============
 
