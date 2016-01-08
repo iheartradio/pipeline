@@ -1,11 +1,12 @@
 """Common utilities for the Ingestion Pipeline."""
 
 from datetime import datetime
+import json
 import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('ignore_provider', 'prepare_message', 'send_error', 'send_message')
+__all__ = ('ignore_provider', 'jsonify', 'nosjify', 'prepare_message', 'send_error', 'send_message')  # noqa
 
 
 async def ignore_provider(app, message):
@@ -55,6 +56,36 @@ async def ignore_provider(app, message):
         raise Abort('provider.ignored', message)
 
     return message
+
+
+async def jsonify(app, message):
+    """Return an encoded dictionary.
+
+    Args:
+        app (henson.base.Application): The application.
+        message (dict): The message to encode.
+
+    Returns:
+        bytes: The encoded message.
+
+    .. versionadded:: 0.3.0
+    """
+    return json.dumps(message).encode('utf-8')
+
+
+async def nosjify(app, message):
+    """Return a decoded dictionary.
+
+    Args:
+        app (henson.base.Application): The application.
+        message (bytes): The message to decode.
+
+    Returns:
+        dict: The decoded message.
+
+    .. versionadded:: 0.3.0
+    """
+    return json.loads(message.decode('utf-8'))
 
 
 def prepare_message(message, *, app_name, event):

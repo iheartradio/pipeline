@@ -12,6 +12,8 @@ Release TBD
 - Add ``validate_schema`` to handle validating document schemas
 - Add additional fields to media schema for audio files
 - Remove settings module (*Backward Incompatible*)
+- Add ``jsonify`` and ``nosjify`` coroutines for serializing and deserializing
+  messages
 
 Version 0.2.0
 =============
