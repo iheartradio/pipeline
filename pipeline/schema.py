@@ -139,20 +139,36 @@ Args:
     year (Optional[int]): The copyright year.
 """
 
+# TODO: Given the number of fields that are optional, this should
+# probably be split up into two separate schemas, one for audio files
+# and one for images. They can inherit from media like track and
+# track_bundle inherit from product.
 media = SchemaAllRequired({
+    Optional('bitrate'): str,
+    Optional('channel'): int,
+    Optional('codec'): str,
     Optional('count'): int,
     Optional('number'): int,
+    Optional('sample_rate'): str,
     'source': str,
+    Optional('windows_drm_id'): str,
 })
 """Schema to validate media.
 
 ``count`` and ``number`` are more likely to be provided for images than
-for audio files.
+for audio files. ``bitrate``, ``channel``, ``codec``, ``sample_rate``,
+and ``windows_drm_id`` are more likely for audio files.
 
 Args:
-    source (str): The location of the media file.
+    bitrate (Optional[str]): The bitrate of the media file.
+    channel (Optional[int]): The channel of the media file.
+    codec (Optional[str]): The codec of the media file.
     count (Optional[int]): The total number of media files.
     number (Optional[int]): The number of the media file.
+    sample_rate (Optional[str]): The sample rate of the media file.
+    source (str): The location of the media file.
+    windows_drm_id (Optional[str]): The Windows DRM ID of the media
+        file.
 """
 
 physical_product = SchemaAllRequired({
