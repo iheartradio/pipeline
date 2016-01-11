@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytest
 
-from pipeline import prepare_message, send_error, send_message
+from pipeline import nosjify, prepare_message, send_error, send_message
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
@@ -87,8 +87,9 @@ async def test_send_error(test_producer):
     """Test that the provided message is sent."""
     expected = {'message': 'test_message'}
     await send_error(expected, producer=test_producer)
+    actual = await nosjify(None, test_producer.sent_error)
 
-    assert test_producer.sent_error['message'] == expected['message']
+    assert actual['message'] == expected['message']
 
 
 @pytest.mark.asyncio
@@ -96,5 +97,6 @@ async def test_send_message(test_producer):
     """Test that the provided message is sent."""
     expected = {'message': 'test_message'}
     await send_message(expected, producer=test_producer, event='tested')
+    actual = await nosjify(None, test_producer.sent_message)
 
-    assert test_producer.sent_message['message'] == expected['message']
+    assert actual['message'] == expected['message']

@@ -132,7 +132,9 @@ async def send_error(message, *, producer):
     # Preserve the incoming event.
     prepared_message = prepare_message(
         message, app_name=producer.app.name, event=message.get('event'))
-    await producer.error(prepared_message)
+    # TODO: This should be done in a separate step.
+    serialized_message = await jsonify(producer.app, prepared_message)
+    await producer.error(serialized_message)
 
 
 async def send_message(message, *, producer, event):
@@ -154,4 +156,6 @@ async def send_message(message, *, producer, event):
     """
     prepared_message = prepare_message(
         message, app_name=producer.app.name, event=event)
-    await producer.send(prepared_message)
+    # TODO: This should be done in a separate step.
+    serialized_message = await jsonify(producer.app, prepared_message)
+    await producer.send(serialized_message)
