@@ -1,8 +1,12 @@
 """Test jsonify."""
 
+from collections import namedtuple
+
 import pytest
 
 from pipeline import jsonify, nosjify
+
+Message = namedtuple('Message', ('body',))
 
 
 @pytest.mark.asyncio
@@ -16,6 +20,7 @@ from pipeline import jsonify, nosjify
 async def test_jsonify(test_app, expected):
     """Test jsonify."""
     intermediate = await jsonify(test_app, expected)
-    actual = await nosjify(test_app, intermediate)
+    message = Message(intermediate)
+    actual = await nosjify(test_app, message)
     assert actual == expected
     assert actual != intermediate

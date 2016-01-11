@@ -78,14 +78,15 @@ async def nosjify(app, message):
 
     Args:
         app (henson.base.Application): The application.
-        message (bytes): The message to decode.
+        message: An object with an attribute called ``body`` containing
+            the message to decode.
 
     Returns:
         dict: The decoded message.
 
     .. versionadded:: 0.3.0
     """
-    return json.loads(message.decode('utf-8'))
+    return json.loads(message.body.decode('utf-8'))
 
 
 def prepare_message(message, *, app_name, event):

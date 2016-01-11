@@ -1,5 +1,6 @@
 """Test message-related functionality."""
 
+from collections import namedtuple
 from datetime import datetime
 
 import pytest
@@ -7,6 +8,8 @@ import pytest
 from pipeline import nosjify, prepare_message, send_error, send_message
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+
+Message = namedtuple('Message', ('body',))
 
 
 def test_prepare_message_adds_job_id():
@@ -87,7 +90,7 @@ async def test_send_error(test_producer):
     """Test that the provided message is sent."""
     expected = {'message': 'test_message'}
     await send_error(expected, producer=test_producer)
-    actual = await nosjify(None, test_producer.sent_error)
+    actual = await nosjify(None, Message(test_producer.sent_error))
 
     assert actual['message'] == expected['message']
 
@@ -97,6 +100,6 @@ async def test_send_message(test_producer):
     """Test that the provided message is sent."""
     expected = {'message': 'test_message'}
     await send_message(expected, producer=test_producer, event='tested')
-    actual = await nosjify(None, test_producer.sent_message)
+    actual = await nosjify(None, Message(test_producer.sent_message))
 
     assert actual['message'] == expected['message']
