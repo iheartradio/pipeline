@@ -1,5 +1,6 @@
 """Test the schemas."""
 
+import copy
 import json
 import os
 
@@ -154,3 +155,35 @@ def test_validate_message_invalid(schema_, message):
     """Test that invalid messages fail to validate."""
     with pytest.raises(Abort):
         schema.validate_schema(schema_, message)
+
+
+def test_valid_takedown():
+    """Test that a valid takedown passes validation."""
+    full_doc = load_json('valid.json')
+    full_doc['action'] = 'takedown'
+    minimal_doc = {'action': 'takedown', 'amw_key': '123'}
+    actual_minimal_doc = schema.validate_schema(schema.takedown, minimal_doc)
+    actual_full_doc = schema.validate_schema(schema.takedown, full_doc)
+    assert actual_minimal_doc == minimal_doc
+    assert actual_full_doc == full_doc
+
+
+@pytest.mark.parametrize('message', (
+    {},
+    {'action': 'takedown'},
+    {'amw_key': '123'},
+    {'action': 'upsert', 'amw_key': '123'},
+))
+def test_invalid_takedown(message):
+    """Test invalid takedown delivery."""
+    with pytest.raises(Abort):
+        schema.validate_schema(schema.takedown, message)
+
+
+def test_delivery():
+    """Test delivery superset schema."""
+    upsert = load_json('valid.json')
+    takedown = copy.deepcopy(upsert)
+    takedown['action'] = 'takedown'
+    assert schema.validate_schema(schema.delivery, upsert) == upsert
+    assert schema.validate_schema(schema.delivery, takedown) == takedown
