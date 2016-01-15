@@ -9,13 +9,11 @@ from functools import partial
 
 from henson.exceptions import Abort
 # Import multipleInvalid to expose it through the module.
-from voluptuous import MultipleInvalid, Optional, Schema, truth, TypeInvalid  # NOQA
+from voluptuous import Any, MultipleInvalid, Optional, Schema, truth, TypeInvalid  # NOQA
 
 __all__ = ('iter_errors', 'validate_schema')
 
 SchemaAllRequired = partial(Schema, required=True)
-
-VALID_ACTIONS = ('upsert', 'takedown')
 
 
 ValidationError = namedtuple('ValidationError', 'error message value')
@@ -30,19 +28,6 @@ Args:
 
 .. versionadded:: 0.2.0
 """
-
-
-@truth
-def _is_valid_action(action):
-    """Return if an action is valid.
-
-    Args:
-        action (str): The action to validate.
-
-    Returns:
-        bool: Whether the action is valid.
-    """
-    return action.lower() in VALID_ACTIONS
 
 
 def iter_errors(exc, data):
@@ -291,7 +276,7 @@ Args:
 
 # products
 product = SchemaAllRequired({
-    'action': _is_valid_action,
+    'action': 'upsert',
     'amw_key': str,
     'artist': artist,
     'copyright': copyright,
@@ -396,6 +381,25 @@ Args:
     upc (str): The track bundle's Universal Product Code.
     volume_count (int): The number of volumes that make up the track bundle.
 """
+
+takedown = SchemaAllRequired({
+    'action': 'takedown',
+    'amw_key': str,
+}, extra=True)
+"""Schema to validate a product takedown.
+
+Args:
+    action (str): The action to be taken on the product specified by
+        ``amw_key``. Must be ``'takedown'``.
+    amw_key (str): The product's amw_key.
+"""
+
+delivery = Any(track_bundle, takedown)
+"""Schema to validate a partner delivery.
+
+Content must match the schema of either ``takedown`` or ``track_bundle``.
+"""
+
 
 del track_schema
 del track_bundle_schema
