@@ -136,13 +136,12 @@ media = SchemaAllRequired({
     Optional('number'): int,
     Optional('sample_rate'): str,
     'source': str,
-    Optional('windows_drm_id'): str,
 })
 """Schema to validate media.
 
 ``count`` and ``number`` are more likely to be provided for images than
-for audio files. ``bitrate``, ``channel``, ``codec``, ``sample_rate``,
-and ``windows_drm_id`` are more likely for audio files.
+for audio files. ``bitrate``, ``channel``, ``codec``, and
+``sample_rate`` are more likely for audio files.
 
 Args:
     bitrate (Optional[str]): The bitrate of the media file.
@@ -152,8 +151,6 @@ Args:
     number (Optional[int]): The number of the media file.
     sample_rate (Optional[str]): The sample rate of the media file.
     source (str): The location of the media file.
-    windows_drm_id (Optional[str]): The Windows DRM ID of the media
-        file.
 """
 
 physical_product = SchemaAllRequired({
@@ -324,7 +321,6 @@ track_schema.update({
     Optional('participants'): [participant],
     Optional('title_extended'): str,
     'volume': int,
-    Optional('windows_drm_id'): str,
 })
 
 track = SchemaAllRequired(track_schema)
@@ -340,7 +336,6 @@ Args:
     title_extended (Optional[str]): The track's extended title.
     volume (int): The number of the track bundle's volumes on which the
         track appears.
-    windows_drm_id (Optional[str]): The track's Windows DRM ID.
 """
 
 track_bundle_schema = product.schema.copy()
