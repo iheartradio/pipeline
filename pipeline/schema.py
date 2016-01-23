@@ -292,8 +292,8 @@ product = SchemaAllRequired({
 """Schema to validate a product.
 
 Args:
-    action (str): The action to perform on the product, should be one of
-        ``upsert`` or ``takedown``.
+    action (str): The action to be taken on the product specified by
+        ``amw_key``. Must be ``'upsert'``.
     amw_key (str): The product's unique identifier.
     artist (artist): The product's artist.
     copyright (copyright): The product's copyright.
