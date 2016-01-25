@@ -281,7 +281,7 @@ product = SchemaAllRequired({
     'explicit_lyrics': bool,
     'genre': str,
     Optional('internal_id'): str,
-    'media': media,
+    Optional('media'): media,
     'provider': provider,
     Optional('publisher'): str,
     'sales_territories': [sales_territory],
