@@ -344,14 +344,14 @@ track_bundle_schema.update({
     Optional('ean'): str,
     Optional('grid'): str,
     Optional('icpn'): str,
+    'number_of_tracks': int,
+    'number_of_volumes': int,
     Optional('physical'): physical_product,
     Optional('product_code'): str,
     'release': release,
-    'track_count': int,
     'tracks': [track],
     'type': str,
     'upc': str,
-    'volume_count': int,
 })
 
 track_bundle = SchemaAllRequired(track_bundle_schema)
@@ -366,15 +366,16 @@ Args:
     grid (Optional[str]): The track bundle's Global Release Identifier.
     icpn (Optional[str]): The track bundle's International Code Product
         Number.
+    number_of_tracks (int): The number of tracks.
+    number_of_volumes (int): The number of volumes that make up the
+        track bundle.
     physical: (Optional[physical_product]): The track bundle's physical
         representation.
     product_code (Optional[str]): The track bundle's product code.
     release (release): The product's release date.
-    track_count (int): The number of tracks.
     tracks (list): A list of tracks.
     type (str): The product type.
     upc (str): The track bundle's Universal Product Code.
-    volume_count (int): The number of volumes that make up the track bundle.
 """
 
 takedown = SchemaAllRequired({

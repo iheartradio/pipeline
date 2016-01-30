@@ -16,6 +16,7 @@
     "media": {
         "source": "/dev/null"
     },
+    "number_of_tracks": 1,
     "provider": {
         "labels": [
             {
@@ -44,7 +45,6 @@
         }
     ],
     "title": "Title",
-    "track_count": 1,
     "tracks": [
         {
             "amw_key": "iHM_UPC_ISRC",
