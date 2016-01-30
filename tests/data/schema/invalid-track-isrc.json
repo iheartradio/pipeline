@@ -16,6 +16,8 @@
     "media": {
         "source": "/dev/null"
     },
+    "number_of_tracks": 1,
+    "number_of_volumes": 1,
     "provider": {
         "labels": [
             {
@@ -44,7 +46,6 @@
         }
     ],
     "title": "Title",
-    "track_count": 1,
     "tracks": [
         {
             "action": "upsert",
@@ -125,6 +126,5 @@
         "disable_on_clock_rollback": true,
         "drm_free": true,
         "limited": true
-    },
-    "volume_count": 1
+    }
 }
