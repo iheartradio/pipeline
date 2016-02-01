@@ -180,13 +180,13 @@ Args:
 
 # provider-related schemas
 sub_label = SchemaAllRequired({
-    'name': str,
+    Optional('name'): str,
     'countries': [str],
 })
 """Schema to valid a sub label.
 
 Args:
-    name (str): The sub label's name.
+    name (Optional[str]): The sub label's name.
     countries (list): A list of countries.
 """
 
