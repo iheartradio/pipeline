@@ -14,6 +14,12 @@ Release TBD
 - Remove settings module (*Backward Incompatible*)
 - Add ``jsonify`` and ``nosjify`` coroutines for serializing and deserializing
   messages
+- Serialize outgoing messages in ``send_message`` and ``send_error``
+- Add ``takedown`` and ``delivery`` schemas
+- Remove ``windows_drm_id``
+- Make media optional
+- Set track bundle counts
+- Make sub label names optional
 
 Version 0.2.0
 =============
