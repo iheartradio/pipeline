@@ -5,7 +5,7 @@ Changelog
 Version 0.3.0
 =============
 
-Release TBD
+Released 2016-03-14
 
 - Make ``ignore_provider``, ``send_message``, and ``send_error`` into
   coroutines
