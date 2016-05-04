@@ -19,3 +19,13 @@ script:
 branches:
   only:
     - master
+
+# Notify us about build status.
+notifications:
+  hipchat:
+    rooms:
+      # Generated from: travis encrypt <API key>@<Room ID>
+      secure: "X7yZDA4r4iC+Imm5BtxRUHUmBGM97d9Olx+OgSj+cKhY36Pjci7HmdXoHOmZnpzNPEbv0P1CVY5jd1LKpBUZ/HoB7bg3w3Od3P1Dhh5X/na8xoGj7X6D2VWFHQQQYAVqDYQy88t5gFetGoUzVCVPb0KmTRvg6XtkSQctaxJQS6sSHoXU/3grng/6Q/Oj7mxEpsA3k/aJ3JZcR4LjB3fEhXCKrXLMfALqRiHdz0kCjPQOIzobGk/rQ3QS2Ad2xKGE99ovNfJ2R0WyQBr7o8wRec3yJFnf6E5WHm+S0M1U3m+wPwAcdCdgwN2YtvfiWFcUH+XADXbKbk5VTQP4y5OE/ENw8etqgaIX4TBDTxB395TQjAuPc2FmmuWm+IrQNCJ3N4qij77MfSw74kNVVlIJ65PxJdpnYxQXhe5W4Siomevdsdrre/fAV8uAD8nq4cPbvv/pf6YmMGY6DpkSvkbCrVgCpTMQB+d6NAfCrCSudnGFu433zS2+hvzobZPFEdmHUqgCHNTRbJj00N7QleNB5SorpBtGlv4fkLkMmaRRolI9XX+IpKywFbxKBckiQ2ynXsKaVTFzHDA+vBAcyklqwTWQOMUANo2Wb/3k1c1iUAS8MaHama/Jji5oBJiTyqF0VzEA5yNcFoKwgMmGkGCuMyzstYY13QElcH8QdeH5f5A="
+    template:
+      - '%{author} pushed "%{commit_subject}" (%{commit}) to <strong>%{repository_name}</strong>. %{message}<br><a href="%{compare_url}">View the pull request.</a><br><a href="%{build_url}">View build #%{build_number}.</a>'
+    format: html
