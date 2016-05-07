@@ -7,6 +7,8 @@ Version 0.4.0
 
 Release TBD
 
+- Make ``duration`` a required field for products
+
 Version 0.3.0
 =============
 
