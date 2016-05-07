@@ -277,7 +277,7 @@ product = SchemaAllRequired({
     'amw_key': str,
     'artist': artist,
     'copyright': copyright,
-    Optional('duration'): int,
+    'duration': int,
     'explicit_lyrics': bool,
     'genre': str,
     Optional('internal_id'): str,
@@ -297,7 +297,7 @@ Args:
     amw_key (str): The product's unique identifier.
     artist (artist): The product's artist.
     copyright (copyright): The product's copyright.
-    duration (Optional[int]): The product's duration.
+    duration (int): The product's duration.
     explicit_lyrics (bool): Whether the product contains explicit
         lyrics.
     genre (str): The product's genre.
