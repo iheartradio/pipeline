@@ -122,7 +122,7 @@ async def send_error(message, *, producer):
 
     Args:
         message (dict): The message to send.
-        producer: The product through which to send the message.
+        producer: The producer through which to send the message.
 
     .. versionchanged:: 0.3.0
 
