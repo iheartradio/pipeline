@@ -33,9 +33,10 @@ class Producer:
         """Mock send an error message."""
         self.sent_error = message
 
-    async def send(self, message):
+    async def send(self, message, *, routing_key=None):
         """Mock send a message."""
         self.sent_message = message
+        self.routing_key = routing_key
 
 
 @pytest.fixture
