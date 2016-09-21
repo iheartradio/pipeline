@@ -2,10 +2,16 @@
 Changelog
 =========
 
-Version 0.4.0
+Version 0.5.0
 =============
 
 Release TBD
+
+
+Version 0.4.0
+=============
+
+Released 2016-09-21
 
 - Make ``duration`` a required field for products
 - Add ``routing_key`` argument to ``send_message``
