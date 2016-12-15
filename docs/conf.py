@@ -17,6 +17,7 @@ import sys
 import os
 import shlex
 import pkg_resources
+from datetime import date
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -55,7 +56,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'pipeline'
-copyright = '2015, iHeartRadio'
+copyright = '2015-{:%Y}, iHeartRadio'.format(date.today())
 author = 'iHeartRadio'
 
 # The version info for the project you're documenting, acts as replacement for
