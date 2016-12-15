@@ -34,13 +34,6 @@ async def ignore_provider(app, message):
     Raises:
         henson.exceptions.Abort: The provider should be ignored.
         KeyError: No provider is included in the message.
-
-    .. versionchanged:: 0.3.0
-
-        This function is now a coroutine and can be used as a message
-        preprocessor. While it does nothing blocking, regular functions
-        can't be used. Its arguments have changed to reflect the
-        required signature of a preprocessor.
     """
     provider = message['provider']
 
@@ -67,8 +60,6 @@ async def jsonify(app, message):
 
     Returns:
         bytes: The encoded message.
-
-    .. versionadded:: 0.3.0
     """
     return json.dumps(message).encode('utf-8')
 
@@ -83,8 +74,6 @@ async def nosjify(app, message):
 
     Returns:
         dict: The decoded message.
-
-    .. versionadded:: 0.3.0
     """
     return json.loads(message.body.decode('utf-8'))
 
@@ -99,8 +88,6 @@ def prepare_message(message, *, app_name, event):
 
     Returns:
         dict: The prepared message.
-
-    .. versionadded:: 0.2.0
     """
     # Make sure the job id exists and has a value.
     if not message.get('job_id'):
@@ -123,12 +110,6 @@ async def send_error(message, *, producer):
     Args:
         message (dict): The message to send.
         producer: The producer through which to send the message.
-
-    .. versionchanged:: 0.3.0
-
-        This function is now a coroutine.
-
-    .. versionadded:: 0.2.0
     """
     # Preserve the incoming event.
     prepared_message = prepare_message(
@@ -155,12 +136,6 @@ async def send_message(message, *, producer, event, routing_key=None):
     .. versionchanged:: 0.4.0
 
         The ``routing_key`` argument is now supported.
-
-    .. versionchanged:: 0.3.0
-
-        This function is now a coroutine.
-
-    .. versionadded:: 0.2.0
     """
     prepared_message = prepare_message(
         message, app_name=producer.app.name, event=event)
