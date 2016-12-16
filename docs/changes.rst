@@ -7,6 +7,8 @@ Version 0.5.0
 
 Release TBD
 
+- Add ``prepare_incoming_message`` to support the new common message structure
+
 
 Version 0.4.0
 =============

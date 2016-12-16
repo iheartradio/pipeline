@@ -1,12 +1,13 @@
 """Common utilities for the Ingestion Pipeline."""
 
+from copy import deepcopy
 from datetime import datetime
 import json
 import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('ignore_provider', 'jsonify', 'nosjify', 'prepare_message', 'send_error', 'send_message')  # noqa
+__all__ = ('ignore_provider', 'jsonify', 'nosjify', 'prepare_incoming_message', 'prepare_message', 'send_error', 'send_message')  # noqa
 
 
 async def ignore_provider(app, message):
@@ -76,6 +77,61 @@ async def nosjify(app, message):
         dict: The decoded message.
     """
     return json.loads(message.body.decode('utf-8'))
+
+
+async def prepare_incoming_message(app, message):
+    """Prepare the incoming message with the common message structure.
+
+    Messages have the following structure::
+
+        {
+            'job_id': ...,
+            'originated_at': ...,
+            'events': [
+                {
+                    'app': ...,
+                    'event_id': ...,
+                    'received_at': ...,
+                },
+            ],
+            'message': ...,
+        }
+
+    As part of preparing the message, ``job_id``, ``originated_at``, and
+    ``events`` will be added if they don't exist. If ``events`` exists
+    and contains events, ``message`` will be hoisted to the last event
+    for archival purposes. A new event will be added.
+
+    Args:
+        app (henson.base.Application): The application instance that
+            received the message.
+        message (dict): The incoming message.
+
+    Returns:
+        dict: The prepared message.
+
+    .. versionadded:: 0.5.0
+    """
+    now = datetime.utcnow().isoformat()
+
+    if not message.get('job_id'):
+        message['job_id'] = str(uuid.uuid4())
+
+    if not message.get('originated_at'):
+        message['originated_at'] = now
+
+    if 'events' not in message:
+        message['events'] = []
+    elif message['events']:
+        message['events'][-1]['message'] = deepcopy(message['message'])
+
+    message['events'].append({
+        'app': app.name,
+        'event_id': str(uuid.uuid4()),
+        'received_at': now,
+    })
+
+    return message
 
 
 def prepare_message(message, *, app_name, event):
