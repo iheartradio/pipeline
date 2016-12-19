@@ -5,90 +5,102 @@ from datetime import datetime
 
 import pytest
 
-from pipeline import nosjify, prepare_message, send_error, send_message
+from pipeline import (
+    nosjify,
+    prepare_incoming_message,
+    prepare_outgoing_message,
+    send_error,
+    send_message,
+)
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 Message = namedtuple('Message', ('body',))
 
 
-def test_prepare_message_adds_job_id():
-    """Test that prepare_message adds a job id."""
-    actual = prepare_message({}, app_name='testing', event='tested')
+@pytest.mark.asyncio
+async def test_events_is_added(test_app):
+    """Test that the events list is added to messages without it."""
+    actual = await prepare_incoming_message(test_app, {})
+    assert 'events' in actual
+
+
+@pytest.mark.asyncio
+async def test_job_id_is_added(test_app):
+    """Test that a job id is added to messages without one."""
+    actual = await prepare_incoming_message(test_app, {})
     assert 'job_id' in actual
 
 
-def test_prepare_message_adds_originated_at():
-    """Test that prepare_message adds an initial timestamp."""
-    actual = prepare_message({}, app_name='testing', event='tested')
-    assert 'originated_at' in actual
+@pytest.mark.asyncio
+async def test_job_id_is_preserved(test_app):
+    """Test that existing job ids are preserved."""
+    actual = await prepare_incoming_message(test_app, {'job_id': 1})
+    assert actual['job_id'] == 1
 
 
-def test_prepare_message_adds_updated_at():
-    """Test that prepare_message adds an updated timestamp."""
-    actual = prepare_message({}, app_name='testing', event='tested')
-    assert 'updated_at' in actual
+@pytest.mark.asyncio
+async def test_message_is_hoisted_to_previous_event(test_app):
+    """Test that the message is copied to the previous event."""
+    actual = await prepare_incoming_message(
+        test_app, {'events': [{}], 'message': 1})
+    assert actual['events'][-2]['message'] == 1
 
 
-def test_prepare_message_originated_at_is_datetime():
+@pytest.mark.parametrize('key', (
+    'app',
+    'event_id',
+    'received_at',
+))
+@pytest.mark.asyncio
+async def test_new_event_has_field(key, test_app):
+    """Test that the new event has the specified field."""
+    actual = await prepare_incoming_message(test_app, {})
+    assert actual['events'][-1][key]
+
+
+@pytest.mark.asyncio
+async def test_new_event_is_added(test_app):
+    """Test that a new event is added."""
+    actual = await prepare_incoming_message(
+        test_app, {'events': [{}], 'message': ''})
+    assert len(actual['events']) == 2
+
+
+@pytest.mark.asyncio
+async def test_new_event_received_at_is_datetime(test_app):
+    """Test that the new event's received timestamp is a datetime."""
+    actual = await prepare_incoming_message(test_app, {})
+    assert isinstance(datetime.strptime(
+        actual['events'][-1]['received_at'], DATETIME_FORMAT), datetime)
+
+
+def test_new_event_updated_at_is_datetime(test_app):
+    """Test that the new event's updated timestamp is a datetime."""
+    actual = prepare_outgoing_message({'events': [{}]})
+    assert isinstance(datetime.strptime(
+        actual['events'][-1]['updated_at'], DATETIME_FORMAT), datetime)
+
+
+@pytest.mark.asyncio
+async def test_originated_at_is_datetime(test_app):
     """Test that the initial timestamp is a datetime."""
-    actual = prepare_message({}, app_name='testing', event='tested')
+    actual = await prepare_incoming_message(test_app, {})
     assert isinstance(
         datetime.strptime(actual['originated_at'], DATETIME_FORMAT), datetime)
 
 
-def test_prepare_message_preserves_job_id():
-    """Test that prepare_message preserves the existing job id."""
-    actual = prepare_message({'job_id': 1}, app_name='testing', event='tested')
-    assert actual['job_id'] == 1
-
-
-def test_prepare_message_preserves_originated_at():
-    """Test that prepare_message preserves the initial timestamp."""
-    actual = prepare_message(
-        {'originated_at': 'now'}, app_name='testing', event='tested')
-    assert actual['originated_at'] == 'now'
-
-
-def test_prepare_message_replaces_empty_job_id():
-    """Test that prepare_message replaces an empty job id."""
-    actual = prepare_message(
-        {'job_id': None}, app_name='testing', event='tested')
-    assert actual['job_id'] is not None
-
-
-def test_prepare_message_sets_app_name():
-    """Test that _prepare messages sets a new app name."""
-    actual = prepare_message(
-        {'app': 'old_app'}, app_name='testing', event='tested')
-    assert actual['app'] == 'testing'
-
-
-def test_prepare_message_sets_event():
-    """Test that _prepare messages sets a new event."""
-    actual = prepare_message(
-        {'event': 'old_event'}, app_name='testing', event='tested')
-    assert actual['event'] == 'tested'
-
-
-def test_prepare_messages_sets_updated_at():
-    """Test that prepare_message sets a new updated timestamp."""
-    actual = prepare_message(
-        {'updated_at': 'now'}, app_name='testing', event='tested')
-    assert actual['updated_at'] != 'now'
-
-
-def test_prepare_message_updated_at_is_datetime():
-    """Test that the updated timestamp is a datetime."""
-    actual = prepare_message({}, app_name='testing', event='tested')
-    assert isinstance(
-        datetime.strptime(actual['updated_at'], DATETIME_FORMAT), datetime)
+@pytest.mark.asyncio
+async def test_originated_at_is_preserved(test_app):
+    """Test that existing initial timestamps are preserved."""
+    actual = await prepare_incoming_message(test_app, {'originated_at': 1})
+    assert actual['originated_at'] == 1
 
 
 @pytest.mark.asyncio
 async def test_send_error(test_producer):
     """Test that the provided message is sent."""
-    expected = {'message': 'test_message'}
+    expected = {'message': 'test_message', 'events': [{}]}
     await send_error(expected, producer=test_producer)
     actual = await nosjify(None, Message(test_producer.sent_error))
 
@@ -98,7 +110,7 @@ async def test_send_error(test_producer):
 @pytest.mark.asyncio
 async def test_send_message(test_producer):
     """Test that the provided message is sent."""
-    expected = {'message': 'test_message'}
+    expected = {'message': 'test_message', 'events': [{}]}
     await send_message(expected, producer=test_producer, event='tested')
     actual = await nosjify(None, Message(test_producer.sent_message))
 

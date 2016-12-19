@@ -1,12 +1,13 @@
 """Common utilities for the Ingestion Pipeline."""
 
+from copy import deepcopy
 from datetime import datetime
 import json
 import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('ignore_provider', 'jsonify', 'nosjify', 'prepare_message', 'send_error', 'send_message')  # noqa
+__all__ = ('ignore_provider', 'jsonify', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
 
 
 async def ignore_provider(app, message):
@@ -78,26 +79,79 @@ async def nosjify(app, message):
     return json.loads(message.body.decode('utf-8'))
 
 
-def prepare_message(message, *, app_name, event):
+async def prepare_incoming_message(app, message):
+    """Prepare the incoming message with the common message structure.
+
+    Messages have the following structure::
+
+        {
+            'job_id': ...,
+            'originated_at': ...,
+            'events': [
+                {
+                    'app': ...,
+                    'event_id': ...,
+                    'received_at': ...,
+                },
+            ],
+            'message': ...,
+        }
+
+    As part of preparing the message, ``job_id``, ``originated_at``, and
+    ``events`` will be added if they don't exist. If ``events`` exists
+    and contains events, ``message`` will be hoisted to the last event
+    for archival purposes. A new event will be added.
+
+    Args:
+        app (henson.base.Application): The application instance that
+            received the message.
+        message (dict): The incoming message.
+
+    Returns:
+        dict: The prepared message.
+
+    .. versionadded:: 1.0.0
+    """
+    now = datetime.utcnow().isoformat()
+
+    if not message.get('job_id'):
+        message['job_id'] = str(uuid.uuid4())
+
+    if not message.get('originated_at'):
+        message['originated_at'] = now
+
+    if 'events' not in message:
+        message['events'] = []
+    elif message['events']:
+        message['events'][-1]['message'] = deepcopy(message['message'])
+
+    message['events'].append({
+        'app': app.name,
+        'event_id': str(uuid.uuid4()),
+        'received_at': now,
+    })
+
+    return message
+
+
+def prepare_outgoing_message(message):
     """Return a message with the common message structure.
 
     Args:
         message (dict): The message to prepare.
-        app_name (str): The name of the application sending the message.
-        event (str): The name of the event that created the message.
 
     Returns:
         dict: The prepared message.
+
+    .. versionchanged:: 1.0.0
+
+        With the changes made to the common message structure, most of
+        the functionality has been moved to
+        :func:`prepare_incoming_message`. The ``app_name`` and ``event``
+        arguments have been removed and the function has been renamed to
+        better distinguish itself from :func:`prepare_incoming_message`.
     """
-    # Make sure the job id exists and has a value.
-    if not message.get('job_id'):
-        message['job_id'] = str(uuid.uuid4())
-    message['app'] = app_name
-    message['event'] = event
-    message['updated_at'] = datetime.utcnow().isoformat()
-    # Make sure the origination time exists and has a value.
-    if not message.get('originated_at'):
-        message['originated_at'] = message['updated_at']
+    message['events'][-1]['updated_at'] = datetime.utcnow().isoformat()
     return message
 
 
@@ -112,8 +166,7 @@ async def send_error(message, *, producer):
         producer: The producer through which to send the message.
     """
     # Preserve the incoming event.
-    prepared_message = prepare_message(
-        message, app_name=producer.app.name, event=message.get('event'))
+    prepared_message = prepare_outgoing_message(message)
     # TODO: This should be done in a separate step.
     serialized_message = await jsonify(producer.app, prepared_message)
     await producer.error(serialized_message)
@@ -137,8 +190,7 @@ async def send_message(message, *, producer, event, routing_key=None):
 
         The ``routing_key`` argument is now supported.
     """
-    prepared_message = prepare_message(
-        message, app_name=producer.app.name, event=event)
+    prepared_message = prepare_outgoing_message(message)
     # TODO: This should be done in a separate step.
     serialized_message = await jsonify(producer.app, prepared_message)
     await producer.send(serialized_message, routing_key=routing_key)
