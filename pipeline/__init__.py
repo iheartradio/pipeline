@@ -172,7 +172,7 @@ async def send_error(message, *, producer):
     await producer.error(serialized_message)
 
 
-async def send_message(message, *, producer, event, routing_key=None):
+async def send_message(message, *, producer, routing_key=None):
     """Send an outgoing message.
 
     ``message`` will be updated with the common message structure and
@@ -181,10 +181,14 @@ async def send_message(message, *, producer, event, routing_key=None):
     Args:
         message (dict): The message to send.
         producer: The product through which to send the message.
-        event (str): The name of the event that created the message.
         routing_key (Optional[str]): The routing key to be passed
             through to the producer's ``send`` method. Defaults to
             ``None``.
+
+    .. versionchanged:: 1.0.0
+
+        The ``event`` argument is being removed because
+        ``prepare_outgoing_message`` no longer accepts it.
 
     .. versionchanged:: 0.4.0
 
