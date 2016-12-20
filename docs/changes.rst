@@ -5,7 +5,7 @@ Changelog
 Version 1.0.0
 =============
 
-Release TBD
+Released 2016-12-20
 
 - Add ``prepare_incoming_message`` to support the new common message structure
 - Rename ``prepare_message`` to ``prepare_outgoing_message`` and remove the
