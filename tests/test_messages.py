@@ -111,7 +111,7 @@ async def test_send_error(test_producer):
 async def test_send_message(test_producer):
     """Test that the provided message is sent."""
     expected = {'message': 'test_message', 'events': [{}]}
-    await send_message(expected, producer=test_producer, event='tested')
+    await send_message(expected, producer=test_producer)
     actual = await nosjify(None, Message(test_producer.sent_message))
 
     assert actual['message'] == expected['message']

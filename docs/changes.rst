@@ -11,6 +11,8 @@ Release TBD
 - Rename ``prepare_message`` to ``prepare_outgoing_message`` and remove the
   arguments that are no longer needed with the changes to the common message
   structure (*backwards incompatible*)
+- ``send_message`` no longer accepts the ``event`` argument (*backwards
+  incompatible*)
 
 
 Version 0.4.0
