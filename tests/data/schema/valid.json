@@ -1,5 +1,6 @@
 {
     "action": "upsert",
+    "albumReleaseType": "Album",
     "amw_key": "iHM_UPC",
     "artist": {
         "name": "Artist"
@@ -9,15 +10,27 @@
         "text": "2015 Copyright",
         "year": 2015
     },
-    "duration": 1000,
+    "duration": "P12H30M5S",
     "explicit_lyrics": true,
     "genre": "Rock",
     "internal_id": "internalid",
     "media": {
         "source": "/dev/null"
     },
-    "number_of_tracks": 1,
-    "number_of_volumes": 1,
+    "name": "Title",
+    "numTracks": 1,
+    "numVolumes": 1,
+    "offers": [
+        {
+            "commercialModelType": ["AdvertisementSupportedModel", "SubscriptionModel"],
+            "licensee": "iHeartMedia",
+            "preOrderPreviewDate": "2015-04-03",
+            "preOrderReleaseDate": "2015-04-03",
+            "territoryCode": "US",
+            "useType": ["OnDemandStream", "NonInteractiveStream"],
+            "validityPeriod": "2015-04-03 2015-04-04"
+        }
+    ],
     "provider": {
         "labels": [
             {
@@ -35,17 +48,7 @@
         ],
         "name": "Provider"
     },
-    "release": {
-        "date": "2015-04-01",
-        "year": 2015
-    },
-    "sales_territories": [
-        {
-            "country_code": "US",
-            "sales_start_date": "2015-04-03"
-        }
-    ],
-    "title": "Title",
+    "releasedEvent": "2015-04-01",
     "tracks": [
         {
             "action": "upsert",
@@ -57,14 +60,15 @@
                 "text": "2015 Copyright",
                 "year": 2015
             },
-            "duration": 1000,
+            "duration": "P12H30M5S",
             "explicit_lyrics": false,
             "index": 0,
-            "isrc": "ISRC",
+            "isrcCode": "ISRC",
             "genre": "Genre",
             "media": {
                 "source": "/dev/null"
             },
+            "name": "Title",
             "provider": {
                 "labels": [
                     {
@@ -82,13 +86,17 @@
                 ],
                 "name": "Provider"
             },
-            "sales_territories": [
+            "offers": [
                 {
-                    "country_code": "US",
-                    "sales_start_date": "2015-04-03"
+                    "commercialModelType": ["AdvertisementSupportedModel", "SubscriptionModel"],
+                    "licensee": "iHeartMedia",
+                    "preOrderPreviewDate": "2015-04-03",
+                    "preOrderReleaseDate": "2015-04-03",
+                    "territoryCode": "US",
+                    "useType": ["OnDemandStream", "NonInteractiveStream"],
+                    "validityPeriod": "2015-04-03 2015-04-04"
                 }
             ],
-            "title": "Title",
             "usage_rules": {
                 "allow_bundle": true,
                 "allow_burn_play_on_pc": true,
@@ -110,7 +118,6 @@
             "number": 1
         }
     ],
-    "type": "Album",
     "upc": "UPC",
     "usage_rules": {
         "allow_bundle": true,
