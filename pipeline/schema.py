@@ -8,7 +8,7 @@ from collections import namedtuple
 from functools import partial
 
 from henson.exceptions import Abort
-from voluptuous import Any, MultipleInvalid, Optional, Schema, truth, TypeInvalid
+from voluptuous import Any, MultipleInvalid, Optional, Schema, TypeInvalid
 
 __all__ = ('iter_errors', 'validate_schema')
 
