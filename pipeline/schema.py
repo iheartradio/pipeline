@@ -8,11 +8,33 @@ from collections import namedtuple
 from functools import partial
 
 from henson.exceptions import Abort
-from voluptuous import Any, MultipleInvalid, Optional, Schema, TypeInvalid
+from voluptuous import (
+    Any,
+    Datetime,
+    Invalid,
+    MultipleInvalid,
+    Optional,
+    Schema,
+    TypeInvalid,
+)
 
 __all__ = ('iter_errors', 'validate_schema')
 
 SchemaAllRequired = partial(Schema, required=True)
+
+COMMERCIAL_MODEL_TYPES = [
+    'AdvertisementSupportedModel',
+    'DeviceFeeModel',
+    'PayAsYouGoModel',
+    'RightsClaimModel',
+    'SubscriptionModel'
+]
+USE_TYPES = [
+    'ConditionalDownload',
+    'NonInteractiveStream',
+    'OnDemandStream',
+    'PermanentDownload'
+]
 
 
 ValidationError = namedtuple('ValidationError', 'error message value')
@@ -27,6 +49,31 @@ Args:
 
 .. versionadded:: 0.2.0
 """
+
+
+class CommercialModelTypeInvalid(Invalid):
+    """The value is not a valid commercialModelType."""
+
+
+def CommercialModelType(value):  # NOQA: N802
+    """Validator for CommercialModelType.
+
+    Args:
+        value (list): The commercialModelTypes in the message.
+
+    Returns:
+        list: The same commercialModelTypes passed into the function.
+
+    Raises:
+        CommercialModelTypeInvalid: If one of the commercialModelTypes
+            is not defined in COMMERCIAL_MODEL_TYPES.
+    """
+    for v in value:
+        if v not in COMMERCIAL_MODEL_TYPES:
+            raise CommercialModelTypeInvalid(
+                "Expected one of '{0}', got '{1}'.".format(
+                    "', '".join(COMMERCIAL_MODEL_TYPES), v))
+    return value
 
 
 def iter_errors(exc, data):
@@ -62,6 +109,29 @@ def iter_errors(exc, data):
             msg = str(error)
 
         yield ValidationError(error, msg, data)
+
+
+class UseTypeInvalid(Invalid):
+    """The value is not a valid useType."""
+
+
+def UseType(value):  # NOQA: N802
+    """Validator for useType.
+
+    Args:
+        value (list): The useTypes in the message.
+
+    Returns:
+        list: The same useTypes passed into the function.
+
+    Raises:
+        UseTypeInvalid: If one of the useTypes is not defined in USE_TYPES.
+    """
+    for v in value:
+        if v not in USE_TYPES:
+            raise UseTypeInvalid("Expected one of '{0}', got '{1}'.".format(
+                "', '".join(USE_TYPES), v))
+    return value
 
 
 def validate_schema(schema, message, logger=None):
@@ -153,29 +223,17 @@ Args:
 """
 
 physical_product = SchemaAllRequired({
-    'artist': str,
+    'byArtist': str,
     'name': str,
     'upc': str,
 })
 """Schema to validate a physical product.
 
 Args:
-    artist (str): The name of the product's artist.
+    byArtist (str): The name of the product's artist.
     name (str): The product's name.
     upc (str): The product's Universal Product Code.
 """
-
-release = SchemaAllRequired({
-    'date': str,
-    'year': int,
-})
-"""Schema to validate a release date.
-
-Args:
-    date (str): The release date.
-    year (int): The release year.
-"""
-
 
 # provider-related schemas
 sub_label = SchemaAllRequired({
@@ -211,22 +269,28 @@ Args:
     labels (list): A list of labels.
 """
 
-
-sales_territory = SchemaAllRequired({
-    'country_code': str,
-    Optional('price_code'): str,
-    'sales_start_date': str,
-    Optional('sales_end_date'): str,
+offer = SchemaAllRequired({
+    'commercialModelType': CommercialModelType,
+    'licensee': str,
+    'preOrderPreviewDate': Datetime('%Y-%m-%d'),
+    'preOrderReleaseDate': Datetime('%Y-%m-%d'),
+    'territoryCode': str,
+    Optional('price'): str,
+    'useType': UseType,
+    'validityPeriod': str,
 })
-"""Schema to validate a sales territory.
-
+"""Schema to validate an offer.
 
 Args:
-    country_code (str): The country code representing the territory.
-    price_code (Optional[str]): The price code used in the territory.
-    sales_start_date (str): The date of availability in the territory.
-    sales_end_date (Optional[str]): The date of the end of availability
-        in the territory.
+    commercialModelType (CommercialModelType): The commercial model
+        between the label or aggregator and their retail partners.
+    licensee (str): The licensee for the offer.
+    preOrderPreviewDate (Date): The date for preorder preview.
+    preOrderReleaseDate (Date): The date for preorder release.
+    territoryCode (str): The country code representing the territory.
+    price (Optional[str]): The price used in the territory.
+    useType (UseType): The types of usage that are allowed.
+    validityPeriod (str): The date range of availability in the territory.
 """
 
 
@@ -276,15 +340,15 @@ product = SchemaAllRequired({
     'amw_key': str,
     'artist': artist,
     'copyright': copyright,
-    'duration': int,
+    'duration': str,
     'explicit_lyrics': bool,
     'genre': str,
     Optional('internal_id'): str,
     Optional('media'): media,
+    'name': str,
+    'offers': [offer],
     'provider': provider,
     Optional('publisher'): str,
-    'sales_territories': [sales_territory],
-    'title': str,
     'usage_rules': usage_rules,
     Optional('version'): str,
 })
@@ -296,29 +360,28 @@ Args:
     amw_key (str): The product's unique identifier.
     artist (artist): The product's artist.
     copyright (copyright): The product's copyright.
-    duration (int): The product's duration.
+    duration (str): The product's duration in ISO-8601 format.
     explicit_lyrics (bool): Whether the product contains explicit
         lyrics.
     genre (str): The product's genre.
     internal_id (Optional[int]): The track's internal identifier.
     media (media): Media files associated with the product.
+    name (str): The product's name.
+    offers (list): A list of offers for the product.
     provider (provider): The product's provider.
     publisher (Optional[str]): The product's publisher.
-    sales_territories (list): A list of sales territories for the
-        product.
-    title (str): The product's title.
     usage_rules (usage_rules): The product's usage rules.
     version (Optional[str]): The product's version.
 """
 
 track_schema = product.schema.copy()
 track_schema.update({
+    Optional('alternativeName'): str,
     'genre': str,
     'index': int,
-    'isrc': str,
+    'isrcCode': str,
     'number': int,
     Optional('participants'): [participant],
-    Optional('title_extended'): str,
     'volume': int,
 })
 
@@ -328,28 +391,28 @@ track = SchemaAllRequired(track_schema)
 This schema is an extension of the :data:`product` schema.
 
 Args:
+    alternativeName (Optional[str]): The track's extended name.
     index (int): The track's index on the track bundle. This is often,
         but not always, based on the ``number``.
-    isrc (str): The track's International Standard Recording Code.
+    isrcCode (str): The track's International Standard Recording Code.
     number (int): The track's number on the track bundle.
-    title_extended (Optional[str]): The track's extended title.
     volume (int): The number of the track bundle's volumes on which the
         track appears.
 """
 
 track_bundle_schema = product.schema.copy()
 track_bundle_schema.update({
+    'albumReleaseType': str,
     Optional('catalog_number'): str,
     Optional('ean'): str,
     Optional('grid'): str,
     Optional('icpn'): str,
-    'number_of_tracks': int,
-    'number_of_volumes': int,
+    'numTracks': int,
+    'numVolumes': int,
     Optional('physical'): physical_product,
     Optional('product_code'): str,
-    'release': release,
+    'releasedEvent': Datetime('%Y-%m-%d'),
     'tracks': [track],
-    'type': str,
     'upc': str,
 })
 
@@ -359,21 +422,21 @@ track_bundle = SchemaAllRequired(track_bundle_schema)
 This schema is an extension of the :data:`product` schema.
 
 Args:
+    albumReleaseType (str): The product type.
     catalog_number (Optional[str]): The track bundle's catalog number.
     ean (Optional[str]): The track bundle's International Article
         Number.
     grid (Optional[str]): The track bundle's Global Release Identifier.
     icpn (Optional[str]): The track bundle's International Code Product
         Number.
-    number_of_tracks (int): The number of tracks.
-    number_of_volumes (int): The number of volumes that make up the
+    numTracks (int): The number of tracks.
+    numVolumes (int): The number of volumes that make up the
         track bundle.
     physical: (Optional[physical_product]): The track bundle's physical
         representation.
     product_code (Optional[str]): The track bundle's product code.
-    release (release): The product's release date.
+    releasedEvent (Date): The product's release date.
     tracks (list): A list of tracks.
-    type (str): The product type.
     upc (str): The track bundle's Universal Product Code.
 """
 
