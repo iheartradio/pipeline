@@ -22,7 +22,7 @@
     "numVolumes": 1,
     "offers": [
         {
-            "commercialModelType": ["AdvertisementSupportedModel", "SubscriptionModel"],
+            "commercialModelType": "AdvertisementSupportedModel",
             "licensee": "iHeartMedia",
             "preOrderPreviewDate": "2015-04-03",
             "preOrderReleaseDate": "2015-04-03",
@@ -88,7 +88,7 @@
             },
             "offers": [
                 {
-                    "commercialModelType": ["AdvertisementSupportedModel", "SubscriptionModel"],
+                    "commercialModelType": "SubscriptionModel",
                     "licensee": "iHeartMedia",
                     "preOrderPreviewDate": "2015-04-03",
                     "preOrderReleaseDate": "2015-04-03",
