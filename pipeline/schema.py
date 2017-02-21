@@ -59,20 +59,19 @@ def CommercialModelType(value):  # NOQA: N802
     """Validator for CommercialModelType.
 
     Args:
-        value (list): The commercialModelTypes in the message.
+        value (str): The commercialModelType in the message.
 
     Returns:
-        list: The same commercialModelTypes passed into the function.
+        str: The same commercialModelType passed into the function.
 
     Raises:
-        CommercialModelTypeInvalid: If one of the commercialModelTypes
+        CommercialModelTypeInvalid: If the commercialModelTypes
             is not defined in COMMERCIAL_MODEL_TYPES.
     """
-    for v in value:
-        if v not in COMMERCIAL_MODEL_TYPES:
-            raise CommercialModelTypeInvalid(
-                "Expected one of '{0}', got '{1}'.".format(
-                    "', '".join(COMMERCIAL_MODEL_TYPES), v))
+    if value not in COMMERCIAL_MODEL_TYPES:
+        raise CommercialModelTypeInvalid(
+            "Expected one of '{0}', got '{1}'.".format(
+                "', '".join(COMMERCIAL_MODEL_TYPES), value))
     return value
 
 
