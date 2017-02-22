@@ -30,11 +30,44 @@ def load_json(filename):
     return doc
 
 
+@pytest.mark.parametrize('type_', (
+    'AdvertisementSupportedModel',
+    'DeviceFeeModel',
+    'PayAsYouGoModel',
+    'RightsClaimModel',
+    'SubscriptionModel',
+))
+def test_commercialmodeltype(type_):
+    """Test that a type is a CommercialModelType."""
+    assert schema.CommercialModelType(type_) == type_
+
+
+def test_delivery():
+    """Test delivery superset schema."""
+    upsert = load_json('valid.json')
+    takedown = copy.deepcopy(upsert)
+    takedown['action'] = 'takedown'
+    assert schema.validate_schema(schema.delivery, upsert) == upsert
+    assert schema.validate_schema(schema.delivery, takedown) == takedown
+
+
 def test_empty_document():
     """Test that an empty document doesn't validate."""
     doc = load_json('empty.json')
     with pytest.raises(schema.MultipleInvalid):
         schema.track_bundle(doc)
+
+
+@pytest.mark.parametrize('message', (
+    {},
+    {'action': 'takedown'},
+    {'amw_key': '123'},
+    {'action': 'upsert', 'amw_key': '123'},
+))
+def test_invalid_takedown(message):
+    """Test invalid takedown delivery."""
+    with pytest.raises(Abort):
+        schema.validate_schema(schema.takedown, message)
 
 
 def test_invalid_track_action():
@@ -126,10 +159,59 @@ def test_no_track_isrc():
         schema.track_bundle(doc)
 
 
+@pytest.mark.parametrize('type_', (
+    'testing',
+    'invalidvalue',
+    'this should fail',
+    '123',
+    '$5',
+))
+def test_raises_commercialmodeltypeinvalid(type_):
+    """Test that invalid commercial models raise CommercialModelTypeInvalid."""
+    assert type_ not in schema.COMMERCIAL_MODEL_TYPES
+    with pytest.raises(schema.CommercialModelTypeInvalid):
+        assert schema.CommercialModelType(type_) == type_
+
+
+@pytest.mark.parametrize('type_', (
+    ['testing1', 'testing2'],
+    ['this should fail'],
+    ['fail1', 'fail2', 'fail3'],
+    ['invalid'],
+))
+def test_raises_usetypeinvalid(type_):
+    """Test that invalid use types raise UseTypeInvalid."""
+    assert type_ not in schema.USE_TYPES
+    with pytest.raises(schema.UseTypeInvalid):
+        assert schema.UseType(type_) == type_
+
+
 def test_valid():
     """Test a valid document."""
     doc = load_json('valid.json')
     assert schema.track_bundle(doc) == doc
+
+
+@pytest.mark.parametrize('type_', (
+    ['ConditionalDownload'],
+    ['NonInteractiveStream'],
+    ['OnDemandStream'],
+    ['PermanentDownload'],
+))
+def test_usetype(type_):
+    """Test that a type is a UseType."""
+    assert schema.UseType(type_) == type_
+
+
+def test_valid_takedown():
+    """Test that a valid takedown passes validation."""
+    full_doc = load_json('valid.json')
+    full_doc['action'] = 'takedown'
+    minimal_doc = {'action': 'takedown', 'amw_key': '123'}
+    actual_minimal_doc = schema.validate_schema(schema.takedown, minimal_doc)
+    actual_full_doc = schema.validate_schema(schema.takedown, full_doc)
+    assert actual_minimal_doc == minimal_doc
+    assert actual_full_doc == full_doc
 
 
 @pytest.mark.parametrize('schema_, expected', (
@@ -155,35 +237,3 @@ def test_validate_message_invalid(schema_, message):
     """Test that invalid messages fail to validate."""
     with pytest.raises(Abort):
         schema.validate_schema(schema_, message)
-
-
-def test_valid_takedown():
-    """Test that a valid takedown passes validation."""
-    full_doc = load_json('valid.json')
-    full_doc['action'] = 'takedown'
-    minimal_doc = {'action': 'takedown', 'amw_key': '123'}
-    actual_minimal_doc = schema.validate_schema(schema.takedown, minimal_doc)
-    actual_full_doc = schema.validate_schema(schema.takedown, full_doc)
-    assert actual_minimal_doc == minimal_doc
-    assert actual_full_doc == full_doc
-
-
-@pytest.mark.parametrize('message', (
-    {},
-    {'action': 'takedown'},
-    {'amw_key': '123'},
-    {'action': 'upsert', 'amw_key': '123'},
-))
-def test_invalid_takedown(message):
-    """Test invalid takedown delivery."""
-    with pytest.raises(Abort):
-        schema.validate_schema(schema.takedown, message)
-
-
-def test_delivery():
-    """Test delivery superset schema."""
-    upsert = load_json('valid.json')
-    takedown = copy.deepcopy(upsert)
-    takedown['action'] = 'takedown'
-    assert schema.validate_schema(schema.delivery, upsert) == upsert
-    assert schema.validate_schema(schema.delivery, takedown) == takedown
