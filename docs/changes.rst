@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 1.1.0
+==============
+
+Release TBD
+
+- Update the message schema to a derivative of schema.org's .. _MusicAlbum: http://schema.org/MusicAlbum
+
 Version 1.0.0
 =============
 
