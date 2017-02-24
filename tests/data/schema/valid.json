@@ -24,11 +24,10 @@
         {
             "commercialModelType": "AdvertisementSupportedModel",
             "licensee": "iHeartMedia",
-            "preOrderPreviewDate": "2015-04-03",
-            "preOrderReleaseDate": "2015-04-03",
             "territoryCode": "US",
             "useType": ["OnDemandStream", "NonInteractiveStream"],
-            "validityPeriod": "2015-04-03 2015-04-04"
+            "validFrom": "2016-10-24T14:01:57.102152Z",
+            "validThrough": "2016-10-24T14:01:57.102152Z"
         }
     ],
     "provider": {
@@ -90,11 +89,10 @@
                 {
                     "commercialModelType": "SubscriptionModel",
                     "licensee": "iHeartMedia",
-                    "preOrderPreviewDate": "2015-04-03",
-                    "preOrderReleaseDate": "2015-04-03",
                     "territoryCode": "US",
                     "useType": ["OnDemandStream", "NonInteractiveStream"],
-                    "validityPeriod": "2015-04-03 2015-04-04"
+                    "validFrom": "2016-10-24T14:01:57.102152Z",
+                    "validThrough": "2016-10-24T14:01:57.102152Z"
                 }
             ],
             "usage_rules": {
