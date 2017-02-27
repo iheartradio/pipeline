@@ -271,12 +271,11 @@ Args:
 offer = SchemaAllRequired({
     'commercialModelType': CommercialModelType,
     'licensee': str,
-    'preOrderPreviewDate': Datetime('%Y-%m-%d'),
-    'preOrderReleaseDate': Datetime('%Y-%m-%d'),
     'territoryCode': str,
     Optional('price'): str,
     'useType': UseType,
-    'validityPeriod': str,
+    'validFrom': Any(Datetime(), None),
+    'validThrough': Any(Datetime(), None),
 })
 """Schema to validate an offer.
 
@@ -284,12 +283,13 @@ Args:
     commercialModelType (CommercialModelType): The commercial model
         between the label or aggregator and their retail partners.
     licensee (str): The licensee for the offer.
-    preOrderPreviewDate (Date): The date for preorder preview.
-    preOrderReleaseDate (Date): The date for preorder release.
     territoryCode (str): The country code representing the territory.
     price (Optional[str]): The price used in the territory.
     useType (UseType): The types of usage that are allowed.
-    validityPeriod (str): The date range of availability in the territory.
+    validFrom (Union[str, None]): The start date of the item's validity in
+        ISO-8601 format.
+    validThrough (Union[str, None]): The end date of the item's validity in
+        ISO-8601 format.
 """
 
 
