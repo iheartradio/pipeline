@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 1.1.0
+==============
+
+Release TBD
+
+- Update the message schema to a derivative of schema.org's MusicAlbum_
+
 Version 1.0.0
 =============
 
@@ -76,3 +83,5 @@ Version 0.1.0
 Released 2015-07-31
 
 - Initial release
+
+.. _MusicAlbum: https://schema.org/MusicAlbum
