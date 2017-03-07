@@ -22,19 +22,19 @@ __all__ = ('iter_errors', 'validate_schema')
 
 SchemaAllRequired = partial(Schema, required=True)
 
-COMMERCIAL_MODEL_TYPES = [
+COMMERCIAL_MODEL_TYPES = (
     'AdvertisementSupportedModel',
     'DeviceFeeModel',
     'PayAsYouGoModel',
     'RightsClaimModel',
     'SubscriptionModel'
-]
-USE_TYPES = [
+)
+USE_TYPES = (
     'ConditionalDownload',
     'NonInteractiveStream',
     'OnDemandStream',
     'PermanentDownload'
-]
+)
 
 
 ValidationError = namedtuple('ValidationError', 'error message value')
