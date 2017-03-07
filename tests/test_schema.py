@@ -42,15 +42,6 @@ def test_commercialmodeltype(type_):
     assert schema.CommercialModelType(type_) == type_
 
 
-def test_delivery():
-    """Test delivery superset schema."""
-    upsert = load_json('valid.json')
-    takedown = copy.deepcopy(upsert)
-    takedown['action'] = 'takedown'
-    assert schema.validate_schema(schema.delivery, upsert) == upsert
-    assert schema.validate_schema(schema.delivery, takedown) == takedown
-
-
 def test_empty_document():
     """Test that an empty document doesn't validate."""
     doc = load_json('empty.json')
@@ -124,6 +115,13 @@ def test_iter_errors_typeinvalid():
     assert error.value == '1'
 
 
+def test_minimal_takendown():
+    """Test that a valid minimal takedown passes validation."""
+    expected = {'action': 'takedown', 'amw_key': '123'}
+    actual = schema.validate_schema(schema.takedown, expected)
+    assert actual == expected
+
+
 def test_missing_track_usage_rules():
     """Test that missing track usage rules doesn't validate."""
     doc = load_json('invalid-track-usage-rules.json')
@@ -186,10 +184,25 @@ def test_raises_usetypeinvalid(type_):
         assert schema.UseType(type_) == type_
 
 
+def test_takedown():
+    """Test that a valid takedown passes validation."""
+    expected = load_json('valid.json')
+    expected['action'] = 'takedown'
+    actual = schema.validate_schema(schema.takedown, expected)
+    assert actual == expected
+
+
 def test_valid():
     """Test a valid document."""
     doc = load_json('valid.json')
     assert schema.track_bundle(doc) == doc
+
+
+def test_upsert():
+    """Test the upsert schema."""
+    expected = load_json('valid.json')
+    actual = schema.validate_schema(schema.delivery, expected)
+    assert actual == expected
 
 
 @pytest.mark.parametrize('type_', (
@@ -201,17 +214,6 @@ def test_valid():
 def test_usetype(type_):
     """Test that a type is a UseType."""
     assert schema.UseType(type_) == type_
-
-
-def test_valid_takedown():
-    """Test that a valid takedown passes validation."""
-    full_doc = load_json('valid.json')
-    full_doc['action'] = 'takedown'
-    minimal_doc = {'action': 'takedown', 'amw_key': '123'}
-    actual_minimal_doc = schema.validate_schema(schema.takedown, minimal_doc)
-    actual_full_doc = schema.validate_schema(schema.takedown, full_doc)
-    assert actual_minimal_doc == minimal_doc
-    assert actual_full_doc == full_doc
 
 
 @pytest.mark.parametrize('schema_, expected', (
