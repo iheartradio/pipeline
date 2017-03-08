@@ -7,7 +7,7 @@ import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('fanout', 'ignore_provider', 'jsonify', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
+__all__ = ('fanout', 'ignore_provider', 'jsonify', 'normalize_isrc', 'normalize_upc', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
 
 
 def fanout(message):
@@ -86,6 +86,45 @@ async def jsonify(app, message):
         bytes: The encoded message.
     """
     return json.dumps(message).encode('utf-8')
+
+
+def normalize_isrc(isrc):
+    """Return an ISRC in a normalized format.
+
+    ISRCs can be displayed with dashes to make them easier to read. The
+    values themselves, however, do not contain them. Before comparing
+    one ISRC to another, any dashes should be stripped.
+
+    Args:
+        isrc (str): The ISRC value to be transformed.
+
+    Returns:
+        str: The normalized ISRC.
+
+    .. versionadded:: 1.1.0
+    """
+    return isrc.replace('-', '')
+
+
+def normalize_upc(upc):
+    """Return a UPC to be a normalized format.
+
+    UPCs are 12-digit numeric codes. Longer values are generally GTINs
+    and should contain 12-digit UPCs padding with leading zeros. These
+    leading zeros can be stripped to create the UPC.
+
+    UPCs longer than 12 digits that don't start with leading zeros will
+    be returned without transformation.
+
+    Args:
+        upc (str): The UPC or GTIN value to be transformed.
+
+    Returns:
+        str: The normalized UPC.
+
+    .. versionadded:: 1.1.0
+    """
+    return upc.lstrip('0').zfill(12)
 
 
 async def nosjify(app, message):

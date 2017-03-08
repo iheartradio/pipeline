@@ -370,6 +370,7 @@ track_schema.update({
     'genre': str,
     'index': int,
     'isrcCode': str,
+    Optional('isrcCodeRaw'): str,
     'number': int,
     Optional('participants'): [participant],
     'volume': int,
@@ -385,6 +386,8 @@ Args:
     index (int): The track's index on the track bundle. This is often,
         but not always, based on the ``number``.
     isrcCode (str): The track's International Standard Recording Code.
+    isrcCodeRaw (Optional(str)): The raw version of the track's
+        International Standard Recording Code.
     number (int): The track's number on the track bundle.
     volume (int): The number of the track bundle's volumes on which the
         track appears.
@@ -403,6 +406,7 @@ track_bundle_schema.update({
     'releasedEvent': Datetime('%Y-%m-%d'),
     'tracks': [track],
     'upc': str,
+    Optional('upcRaw'): str,
 })
 
 track_bundle = SchemaAllRequired(track_bundle_schema)
@@ -425,6 +429,8 @@ Args:
     releasedEvent (Date): The product's release date.
     tracks (list): A list of tracks.
     upc (str): The track bundle's Universal Product Code.
+    upcRaw (Optional(str)): The raw version of the track bundle's
+        Universal Product Code.
 """
 
 takedown = SchemaAllRequired({

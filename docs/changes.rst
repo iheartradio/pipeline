@@ -11,6 +11,8 @@ Release TBD
 - Add ``fanout`` to generate unique a ``job_id`` for outgoing messages sent by
   services that send multiple outgoing messages for each incoming one
 - Drop support for information related to physical products
+- Add ``normalize_isrc`` and ``normalize_upc`` to handle transforming raw
+  identifiers into their normalized formats
 
 Version 1.0.0
 =============
