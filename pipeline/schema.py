@@ -46,13 +46,14 @@ Args:
         information than the message associated with ``error``.
     value: The value that failed validation. This will only be provided
         when the object being validated contained the field.
-
-.. versionadded:: 0.2.0
 """
 
 
 class CommercialModelTypeInvalid(Invalid):
-    """The value is not a valid commercialModelType."""
+    """The value is not a valid commercialModelType.
+
+    .. versionadded: 1.1.0
+    """
 
 
 def CommercialModelType(value):  # NOQA: N802
@@ -67,6 +68,8 @@ def CommercialModelType(value):  # NOQA: N802
     Raises:
         CommercialModelTypeInvalid: If the commercialModelTypes
             is not defined in COMMERCIAL_MODEL_TYPES.
+
+    .. versionadded: 1.1.0
     """
     if value not in COMMERCIAL_MODEL_TYPES:
         raise CommercialModelTypeInvalid(
@@ -85,8 +88,6 @@ def iter_errors(exc, data):
 
     Yields:
         ValidationError: The error.
-
-    .. versionadded:: 0.2.0
     """
     # Get a copy of the original value so data can be reset in the loop.
     original = data
@@ -111,7 +112,10 @@ def iter_errors(exc, data):
 
 
 class UseTypeInvalid(Invalid):
-    """The value is not a valid useType."""
+    """The value is not a valid useType.
+
+    .. versionadded: 1.1.0
+    """
 
 
 def UseType(value):  # NOQA: N802
@@ -125,6 +129,8 @@ def UseType(value):  # NOQA: N802
 
     Raises:
         UseTypeInvalid: If one of the useTypes is not defined in USE_TYPES.
+
+    .. versionadded: 1.1.0
     """
     for v in value:
         if v not in USE_TYPES:
@@ -146,8 +152,6 @@ def validate_schema(schema, message, logger=None):
 
     Returns:
         dict: The validated message upon successful validation.
-
-    .. versionadded:: 0.3.0
     """
     try:
         return schema(message)
