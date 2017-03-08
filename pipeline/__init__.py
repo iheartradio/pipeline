@@ -7,7 +7,30 @@ import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('ignore_provider', 'jsonify', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
+__all__ = ('fanout', 'ignore_provider', 'jsonify', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
+
+
+def fanout(message):
+    """Return a message fanned out from the original message.
+
+    Messages that are fanned out from other messages will receive a new
+    ``job_id``. The original message's ``job_id`` will be added to the
+    list of ancestors.
+
+    Args:
+        message (dict): The original message.
+
+    Returns:
+        dict: A copy of the original message with its own ``job_id``.
+
+    .. versionadded:: 1.1.0
+    """
+    message = deepcopy(message)
+
+    message['ancestor_ids'].append(message['job_id'])
+    message['job_id'] = str(uuid.uuid4())
+
+    return message
 
 
 async def ignore_provider(app, message):
@@ -86,6 +109,7 @@ async def prepare_incoming_message(app, message):
 
         {
             'job_id': ...,
+            'ancestor_ids': ...,
             'originated_at': ...,
             'events': [
                 {
@@ -110,12 +134,18 @@ async def prepare_incoming_message(app, message):
     Returns:
         dict: The prepared message.
 
+    .. versionchanged:: 1.1.0
+
+        The ``ancestor_ids`` key is added to messages.
+
     .. versionadded:: 1.0.0
     """
     now = datetime.utcnow().isoformat()
 
     if not message.get('job_id'):
         message['job_id'] = str(uuid.uuid4())
+
+    message.setdefault('ancestor_ids', [])
 
     if not message.get('originated_at'):
         message['originated_at'] = now
