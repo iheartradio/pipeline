@@ -219,10 +219,6 @@ async def send_message(message, *, producer, routing_key=None):
 
         The ``event`` argument is being removed because
         ``prepare_outgoing_message`` no longer accepts it.
-
-    .. versionchanged:: 0.4.0
-
-        The ``routing_key`` argument is now supported.
     """
     prepared_message = prepare_outgoing_message(message)
     # TODO: This should be done in a separate step.
