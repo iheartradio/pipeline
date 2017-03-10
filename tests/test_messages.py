@@ -2,10 +2,12 @@
 
 from collections import namedtuple
 from datetime import datetime
+import uuid
 
 import pytest
 
 from pipeline import (
+    fanout,
     nosjify,
     prepare_incoming_message,
     prepare_outgoing_message,
@@ -23,6 +25,28 @@ async def test_events_is_added(test_app):
     """Test that the events list is added to messages without it."""
     actual = await prepare_incoming_message(test_app, {})
     assert 'events' in actual
+
+
+def test_fanout_adds_ancestor_id():
+    """Test that fanout adds the original job_id as an ancestor_id."""
+    original = {'job_id': 1, 'ancestor_ids': []}
+    result = fanout(original)
+    assert original['job_id'] in result['ancestor_ids']
+
+
+def test_fanout_does_not_change_original_message():
+    """Test that fanout doesn't change the original message."""
+    expected = 1
+    original = {'job_id': expected, 'ancestor_ids': []}
+    result = fanout(original)
+    assert original['job_id'] == expected
+
+
+def test_fanout_new_job_id():
+    """Test that fanout assigns a new job_id."""
+    original = {'job_id': 1, 'ancestor_ids': []}
+    result = fanout(original)
+    assert result['job_id'] != original['job_id']
 
 
 @pytest.mark.asyncio
