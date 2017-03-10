@@ -225,19 +225,6 @@ Args:
     source (str): The location of the media file.
 """
 
-physical_product = SchemaAllRequired({
-    'byArtist': str,
-    'name': str,
-    'upc': str,
-})
-"""Schema to validate a physical product.
-
-Args:
-    byArtist (str): The name of the product's artist.
-    name (str): The product's name.
-    upc (str): The product's Universal Product Code.
-"""
-
 # provider-related schemas
 sub_label = SchemaAllRequired({
     Optional('name'): str,
@@ -412,7 +399,6 @@ track_bundle_schema.update({
     Optional('icpn'): str,
     'numTracks': int,
     'numVolumes': int,
-    Optional('physical'): physical_product,
     Optional('product_code'): str,
     'releasedEvent': Datetime('%Y-%m-%d'),
     'tracks': [track],
@@ -435,8 +421,6 @@ Args:
     numTracks (int): The number of tracks.
     numVolumes (int): The number of volumes that make up the
         track bundle.
-    physical: (Optional[physical_product]): The track bundle's physical
-        representation.
     product_code (Optional[str]): The track bundle's product code.
     releasedEvent (Date): The product's release date.
     tracks (list): A list of tracks.

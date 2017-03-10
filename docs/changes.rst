@@ -10,6 +10,7 @@ Release TBD
 - Update the message schema to a derivative of schema.org's MusicAlbum_
 - Add ``fanout`` to generate unique a ``job_id`` for outgoing messages sent by
   services that send multiple outgoing messages for each incoming one
+- Drop support for information related to physical products
 
 Version 1.0.0
 =============
