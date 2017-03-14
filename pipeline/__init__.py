@@ -10,7 +10,7 @@ from henson.exceptions import Abort
 __all__ = ('fanout', 'ignore_provider', 'jsonify', 'normalize_isrc', 'normalize_upc', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
 
 
-def fanout(message):
+async def fanout(app, message):
     """Return a message fanned out from the original message.
 
     Messages that are fanned out from other messages will receive a new
@@ -18,6 +18,8 @@ def fanout(message):
     list of ancestors.
 
     Args:
+        app (henson.base.Application): The application instance that
+            generated the message.
         message (dict): The original message.
 
     Returns:
