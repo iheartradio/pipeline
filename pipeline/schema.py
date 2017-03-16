@@ -284,46 +284,6 @@ Args:
 """
 
 
-usage_rules = SchemaAllRequired({
-    'allow_bundle': bool,
-    'allow_burn_play_on_pc': bool,
-    'allow_burn_to_cd': bool,
-    'allow_mobile': bool,
-    'allow_permanent': bool,
-    'allow_promotional': bool,
-    'allow_streaming': bool,
-    'allow_subscription': bool,
-    'allow_transfer_to_nsdmi': bool,
-    'allow_transfer_to_sdmi': bool,
-    'allow_unbundle': bool,
-    'delete_on_clock_rollback': bool,
-    'disable_on_clock_rollback': bool,
-    'drm_free': bool,
-    'limited': bool,
-})
-"""Schema to validate usage rules.
-
-Args:
-    allow_bundle (bool): The allowbundle usage rule.
-    allow_burn_play_on_pc (bool): The allowburnplayonpc usage rule.
-    allow_burn_to_cd (bool): The allowburntocd usage rule.
-    allow_mobile (bool): The allowmobile usage rule.
-    allow_permanent (bool): The allowpermanent usage rule.
-    allow_promotional (bool): The allowpromotional usage rule.
-    allow_streaming (bool): The allowstreaming usage rule.
-    allow_subscription (bool): The allowsubscription usage rule.
-    allow_transfer_to_nsdmi (bool): The allowtransfertonsdmi usage rule.
-    allow_transfer_to_sdmi (bool): The allowtransfertosdmi usage rule.
-    allow_unbundle (bool): The allowunbundle usage rule.
-    delete_on_clock_rollback (bool): The deleteonclockrollback usage
-        rule.
-    disable_on_clock_rollback (bool): The disableonclockrollback usage
-        rule.
-    drm_free (bool): The drmfree usage rule.
-    limited (bool): The limited usage rule.
-"""
-
-
 # products
 product = SchemaAllRequired({
     'action': 'upsert',
@@ -339,7 +299,6 @@ product = SchemaAllRequired({
     'offers': [offer],
     'provider': provider,
     Optional('publisher'): str,
-    'usage_rules': usage_rules,
     Optional('version'): str,
 })
 """Schema to validate a product.
@@ -360,7 +319,6 @@ Args:
     offers (list): A list of offers for the product.
     provider (provider): The product's provider.
     publisher (Optional[str]): The product's publisher.
-    usage_rules (usage_rules): The product's usage rules.
     version (Optional[str]): The product's version.
 """
 

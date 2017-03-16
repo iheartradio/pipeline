@@ -122,13 +122,6 @@ def test_minimal_takendown():
     assert actual == expected
 
 
-def test_missing_track_usage_rules():
-    """Test that missing track usage rules doesn't validate."""
-    doc = load_json('invalid-track-usage-rules.json')
-    with pytest.raises(schema.MultipleInvalid):
-        schema.track_bundle(doc)
-
-
 def test_no_track_bundle_amwkey():
     """Test that a missing track bundle amwkey doesn't validate."""
     doc = load_json('invalid-track-bundle-amwkey.json')
