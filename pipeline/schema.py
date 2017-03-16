@@ -128,7 +128,8 @@ def UseType(value):  # NOQA: N802
         list: The same useTypes passed into the function.
 
     Raises:
-        UseTypeInvalid: If one of the useTypes is not defined in USE_TYPES.
+        UseTypeInvalid: If one of the useTypes is not defined in
+            ``USE_TYPES``.
 
     .. versionadded: 1.1.0
     """
@@ -206,14 +207,14 @@ media = SchemaAllRequired({
     Optional('codec'): str,
     Optional('count'): int,
     Optional('number'): int,
-    Optional('sample_rate'): str,
+    Optional('sampleRate'): str,
     'source': str,
 })
 """Schema to validate media.
 
 ``count`` and ``number`` are more likely to be provided for images than
 for audio files. ``bitrate``, ``channel``, ``codec``, and
-``sample_rate`` are more likely for audio files.
+``sampleRate`` are more likely for audio files.
 
 Args:
     bitrate (Optional[str]): The bitrate of the media file.
@@ -221,7 +222,7 @@ Args:
     codec (Optional[str]): The codec of the media file.
     count (Optional[int]): The total number of media files.
     number (Optional[int]): The number of the media file.
-    sample_rate (Optional[str]): The sample rate of the media file.
+    sampleRate (Optional[str]): The sample rate of the media file.
     source (str): The location of the media file.
 """
 
@@ -239,13 +240,13 @@ Args:
 
 label = SchemaAllRequired({
     'name': str,
-    'sub_labels': [sub_label],
+    'subLabels': [sub_label],
 })
 """Schema to validate a label.
 
 Args:
     name (str): The label's name.
-    sub_labels (list): A list of sub labels.
+    subLabels (list): A list of sub labels.
 """
 
 provider = SchemaAllRequired({
@@ -262,8 +263,8 @@ Args:
 offer = SchemaAllRequired({
     'commercialModelType': CommercialModelType,
     'licensee': str,
-    'territoryCode': str,
     Optional('price'): str,
+    'territoryCode': str,
     'useType': UseType,
     'validFrom': Any(Datetime(), None),
     'validThrough': Any(Datetime(), None),
@@ -274,93 +275,51 @@ Args:
     commercialModelType (CommercialModelType): The commercial model
         between the label or aggregator and their retail partners.
     licensee (str): The licensee for the offer.
-    territoryCode (str): The country code representing the territory.
     price (Optional[str]): The price used in the territory.
+    territoryCode (str): The country code representing the territory.
     useType (UseType): The types of usage that are allowed.
-    validFrom (Union[str, None]): The start date of the item's validity in
-        ISO-8601 format.
-    validThrough (Union[str, None]): The end date of the item's validity in
-        ISO-8601 format.
-"""
-
-
-usage_rules = SchemaAllRequired({
-    'allow_bundle': bool,
-    'allow_burn_play_on_pc': bool,
-    'allow_burn_to_cd': bool,
-    'allow_mobile': bool,
-    'allow_permanent': bool,
-    'allow_promotional': bool,
-    'allow_streaming': bool,
-    'allow_subscription': bool,
-    'allow_transfer_to_nsdmi': bool,
-    'allow_transfer_to_sdmi': bool,
-    'allow_unbundle': bool,
-    'delete_on_clock_rollback': bool,
-    'disable_on_clock_rollback': bool,
-    'drm_free': bool,
-    'limited': bool,
-})
-"""Schema to validate usage rules.
-
-Args:
-    allow_bundle (bool): The allowbundle usage rule.
-    allow_burn_play_on_pc (bool): The allowburnplayonpc usage rule.
-    allow_burn_to_cd (bool): The allowburntocd usage rule.
-    allow_mobile (bool): The allowmobile usage rule.
-    allow_permanent (bool): The allowpermanent usage rule.
-    allow_promotional (bool): The allowpromotional usage rule.
-    allow_streaming (bool): The allowstreaming usage rule.
-    allow_subscription (bool): The allowsubscription usage rule.
-    allow_transfer_to_nsdmi (bool): The allowtransfertonsdmi usage rule.
-    allow_transfer_to_sdmi (bool): The allowtransfertosdmi usage rule.
-    allow_unbundle (bool): The allowunbundle usage rule.
-    delete_on_clock_rollback (bool): The deleteonclockrollback usage
-        rule.
-    disable_on_clock_rollback (bool): The disableonclockrollback usage
-        rule.
-    drm_free (bool): The drmfree usage rule.
-    limited (bool): The limited usage rule.
+    validFrom (Union[str, None]): The start date of the item's validity
+        in ISO-8601 format.
+    validThrough (Union[str, None]): The end date of the item's validity
+        in ISO-8601 format.
 """
 
 
 # products
 product = SchemaAllRequired({
     'action': 'upsert',
-    'amw_key': str,
+    'amwKey': str,
     'artist': artist,
     'copyright': copyright,
     'duration': str,
-    'explicit_lyrics': bool,
+    'explicitLyrics': bool,
     'genre': str,
-    Optional('internal_id'): str,
+    Optional('internalId'): str,
     Optional('media'): media,
     'name': str,
     'offers': [offer],
     'provider': provider,
     Optional('publisher'): str,
-    'usage_rules': usage_rules,
     Optional('version'): str,
 })
 """Schema to validate a product.
 
 Args:
     action (str): The action to be taken on the product specified by
-        ``amw_key``. Must be ``'upsert'``.
-    amw_key (str): The product's unique identifier.
+        ``amwKey``. Must be ``'upsert'``.
+    amwKey (str): The product's unique identifier.
     artist (artist): The product's artist.
     copyright (copyright): The product's copyright.
     duration (str): The product's duration in ISO-8601 format.
-    explicit_lyrics (bool): Whether the product contains explicit
+    explicitLyrics (bool): Whether the product contains explicit
         lyrics.
     genre (str): The product's genre.
-    internal_id (Optional[int]): The track's internal identifier.
+    internalId (Optional[int]): The track's internal identifier.
     media (media): Media files associated with the product.
     name (str): The product's name.
     offers (list): A list of offers for the product.
     provider (provider): The product's provider.
     publisher (Optional[str]): The product's publisher.
-    usage_rules (usage_rules): The product's usage rules.
     version (Optional[str]): The product's version.
 """
 
@@ -396,13 +355,13 @@ Args:
 track_bundle_schema = product.schema.copy()
 track_bundle_schema.update({
     'albumReleaseType': str,
-    Optional('catalog_number'): str,
+    Optional('catalogNumber'): str,
     Optional('ean'): str,
     Optional('grid'): str,
     Optional('icpn'): str,
     'numTracks': int,
     'numVolumes': int,
-    Optional('product_code'): str,
+    Optional('productCode'): str,
     'releasedEvent': Datetime('%Y-%m-%d'),
     'tracks': [track],
     'upc': str,
@@ -416,7 +375,7 @@ This schema is an extension of the :data:`product` schema.
 
 Args:
     albumReleaseType (str): The product type.
-    catalog_number (Optional[str]): The track bundle's catalog number.
+    catalogNumber (Optional[str]): The track bundle's catalog number.
     ean (Optional[str]): The track bundle's International Article
         Number.
     grid (Optional[str]): The track bundle's Global Release Identifier.
@@ -425,7 +384,7 @@ Args:
     numTracks (int): The number of tracks.
     numVolumes (int): The number of volumes that make up the
         track bundle.
-    product_code (Optional[str]): The track bundle's product code.
+    productCode (Optional[str]): The track bundle's product code.
     releasedEvent (Date): The product's release date.
     tracks (list): A list of tracks.
     upc (str): The track bundle's Universal Product Code.
@@ -435,20 +394,21 @@ Args:
 
 takedown = SchemaAllRequired({
     'action': 'takedown',
-    'amw_key': str,
+    'amwKey': str,
 }, extra=True)
 """Schema to validate a product takedown.
 
 Args:
     action (str): The action to be taken on the product specified by
-        ``amw_key``. Must be ``'takedown'``.
-    amw_key (str): The product's amw_key.
+        ``amwKey``. Must be ``'takedown'``.
+    amwKey (str): The product's amwKey.
 """
 
 delivery = Any(track_bundle, takedown)
 """Schema to validate a partner delivery.
 
-Content must match the schema of either ``takedown`` or ``track_bundle``.
+Content must match the schema of either ``takedown`` or
+``track_bundle``.
 """
 
 

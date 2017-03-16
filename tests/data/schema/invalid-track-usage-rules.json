@@ -1,18 +1,18 @@
 {
     "action": "upsert",
-    "amw_key": "iHM_UPC",
+    "amwKey": "iHM_UPC",
     "artist": {
         "name": "Artist"
     },
-    "catalog_number": "catalognumber",
+    "catalogNumber": "catalognumber",
     "copyright": {
         "text": "2015 Copyright",
         "year": 2015
     },
     "duration": 1000,
-    "explicit_lyrics": true,
+    "explicitLyrics": true,
     "genre": "Rock",
-    "internal_id": "internalid",
+    "internalId": "internalid",
     "media": {
         "source": "/dev/null"
     },
@@ -22,7 +22,7 @@
         "labels": [
             {
                 "name": "Label",
-                "sub_labels": [
+                "subLabels": [
                     {
                         "countries": [
                             "CA",
@@ -49,7 +49,7 @@
     "tracks": [
         {
             "action": "upsert",
-            "amw_key": "iHM_UPC_ISRC",
+            "amwKey": "iHM_UPC_ISRC",
             "artist": {
                 "name": "Artist"
             },
@@ -57,7 +57,7 @@
                 "text": "2015 Copyright",
                 "year": 2015
             },
-            "explicit_lyrics": false,
+            "explicitLyrics": false,
             "index": 0,
             "isrc": "ISRC",
             "genre": "Genre",
@@ -68,7 +68,7 @@
                 "labels": [
                     {
                         "name": "Label",
-                        "sub_labels": [
+                        "subLabels": [
                             {
                                 "countries": [
                                     "CA",
@@ -88,41 +88,10 @@
                 }
             ],
             "title": "Title",
-            "usage_rules": {
-                "allow_bundle": true,
-                "allow_burn_play_on_pc": true,
-                "allow_mobile": true,
-                "allow_promotional": true,
-                "allow_subscription": true,
-                "allow_transfer_to_nsdmi": true,
-                "allow_transfer_to_sdmi": true,
-                "allow_unbundle": true,
-                "delete_on_clock_rollback": true,
-                "disable_on_clock_rollback": true,
-                "drm_free": true,
-                "limited": true
-            },
             "volume": 1,
             "number": 1
         }
     ],
     "type": "Album",
-    "upc": "UPC",
-    "usage_rules": {
-        "allow_bundle": true,
-        "allow_burn_play_on_pc": true,
-        "allow_burn_to_cd": true,
-        "allow_mobile": true,
-        "allow_permanent": true,
-        "allow_promotional": true,
-        "allow_streaming": true,
-        "allow_subscription": true,
-        "allow_transfer_to_nsdmi": true,
-        "allow_transfer_to_sdmi": true,
-        "allow_unbundle": true,
-        "delete_on_clock_rollback": true,
-        "disable_on_clock_rollback": true,
-        "drm_free": true,
-        "limited": true
-    }
+    "upc": "UPC"
 }

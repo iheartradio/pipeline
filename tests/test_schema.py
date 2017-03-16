@@ -52,8 +52,8 @@ def test_empty_document():
 @pytest.mark.parametrize('message', (
     {},
     {'action': 'takedown'},
-    {'amw_key': '123'},
-    {'action': 'upsert', 'amw_key': '123'},
+    {'amwKey': '123'},
+    {'action': 'upsert', 'amwKey': '123'},
 ))
 def test_invalid_takedown(message):
     """Test invalid takedown delivery."""
@@ -117,16 +117,9 @@ def test_iter_errors_typeinvalid():
 
 def test_minimal_takendown():
     """Test that a valid minimal takedown passes validation."""
-    expected = {'action': 'takedown', 'amw_key': '123'}
+    expected = {'action': 'takedown', 'amwKey': '123'}
     actual = schema.validate_schema(schema.takedown, expected)
     assert actual == expected
-
-
-def test_missing_track_usage_rules():
-    """Test that missing track usage rules doesn't validate."""
-    doc = load_json('invalid-track-usage-rules.json')
-    with pytest.raises(schema.MultipleInvalid):
-        schema.track_bundle(doc)
 
 
 def test_no_track_bundle_amwkey():
