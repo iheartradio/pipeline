@@ -263,8 +263,8 @@ Args:
 offer = SchemaAllRequired({
     'commercialModelType': CommercialModelType,
     'licensee': str,
-    'territoryCode': str,
     Optional('price'): str,
+    'territoryCode': str,
     'useType': UseType,
     'validFrom': Any(Datetime(), None),
     'validThrough': Any(Datetime(), None),
@@ -275,8 +275,8 @@ Args:
     commercialModelType (CommercialModelType): The commercial model
         between the label or aggregator and their retail partners.
     licensee (str): The licensee for the offer.
-    territoryCode (str): The country code representing the territory.
     price (Optional[str]): The price used in the territory.
+    territoryCode (str): The country code representing the territory.
     useType (UseType): The types of usage that are allowed.
     validFrom (Union[str, None]): The start date of the item's validity
         in ISO-8601 format.
