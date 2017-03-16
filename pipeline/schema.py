@@ -128,7 +128,8 @@ def UseType(value):  # NOQA: N802
         list: The same useTypes passed into the function.
 
     Raises:
-        UseTypeInvalid: If one of the useTypes is not defined in USE_TYPES.
+        UseTypeInvalid: If one of the useTypes is not defined in
+            ``USE_TYPES``.
 
     .. versionadded: 1.1.0
     """
@@ -277,10 +278,10 @@ Args:
     territoryCode (str): The country code representing the territory.
     price (Optional[str]): The price used in the territory.
     useType (UseType): The types of usage that are allowed.
-    validFrom (Union[str, None]): The start date of the item's validity in
-        ISO-8601 format.
-    validThrough (Union[str, None]): The end date of the item's validity in
-        ISO-8601 format.
+    validFrom (Union[str, None]): The start date of the item's validity
+        in ISO-8601 format.
+    validThrough (Union[str, None]): The end date of the item's validity
+        in ISO-8601 format.
 """
 
 
@@ -406,7 +407,8 @@ Args:
 delivery = Any(track_bundle, takedown)
 """Schema to validate a partner delivery.
 
-Content must match the schema of either ``takedown`` or ``track_bundle``.
+Content must match the schema of either ``takedown`` or
+``track_bundle``.
 """
 
 
