@@ -206,14 +206,14 @@ media = SchemaAllRequired({
     Optional('codec'): str,
     Optional('count'): int,
     Optional('number'): int,
-    Optional('sample_rate'): str,
+    Optional('sampleRate'): str,
     'source': str,
 })
 """Schema to validate media.
 
 ``count`` and ``number`` are more likely to be provided for images than
 for audio files. ``bitrate``, ``channel``, ``codec``, and
-``sample_rate`` are more likely for audio files.
+``sampleRate`` are more likely for audio files.
 
 Args:
     bitrate (Optional[str]): The bitrate of the media file.
@@ -221,7 +221,7 @@ Args:
     codec (Optional[str]): The codec of the media file.
     count (Optional[int]): The total number of media files.
     number (Optional[int]): The number of the media file.
-    sample_rate (Optional[str]): The sample rate of the media file.
+    sampleRate (Optional[str]): The sample rate of the media file.
     source (str): The location of the media file.
 """
 
@@ -239,13 +239,13 @@ Args:
 
 label = SchemaAllRequired({
     'name': str,
-    'sub_labels': [sub_label],
+    'subLabels': [sub_label],
 })
 """Schema to validate a label.
 
 Args:
     name (str): The label's name.
-    sub_labels (list): A list of sub labels.
+    subLabels (list): A list of sub labels.
 """
 
 provider = SchemaAllRequired({
@@ -287,13 +287,13 @@ Args:
 # products
 product = SchemaAllRequired({
     'action': 'upsert',
-    'amw_key': str,
+    'amwKey': str,
     'artist': artist,
     'copyright': copyright,
     'duration': str,
-    'explicit_lyrics': bool,
+    'explicitLyrics': bool,
     'genre': str,
-    Optional('internal_id'): str,
+    Optional('internalId'): str,
     Optional('media'): media,
     'name': str,
     'offers': [offer],
@@ -305,15 +305,15 @@ product = SchemaAllRequired({
 
 Args:
     action (str): The action to be taken on the product specified by
-        ``amw_key``. Must be ``'upsert'``.
-    amw_key (str): The product's unique identifier.
+        ``amwKey``. Must be ``'upsert'``.
+    amwKey (str): The product's unique identifier.
     artist (artist): The product's artist.
     copyright (copyright): The product's copyright.
     duration (str): The product's duration in ISO-8601 format.
-    explicit_lyrics (bool): Whether the product contains explicit
+    explicitLyrics (bool): Whether the product contains explicit
         lyrics.
     genre (str): The product's genre.
-    internal_id (Optional[int]): The track's internal identifier.
+    internalId (Optional[int]): The track's internal identifier.
     media (media): Media files associated with the product.
     name (str): The product's name.
     offers (list): A list of offers for the product.
@@ -354,13 +354,13 @@ Args:
 track_bundle_schema = product.schema.copy()
 track_bundle_schema.update({
     'albumReleaseType': str,
-    Optional('catalog_number'): str,
+    Optional('catalogNumber'): str,
     Optional('ean'): str,
     Optional('grid'): str,
     Optional('icpn'): str,
     'numTracks': int,
     'numVolumes': int,
-    Optional('product_code'): str,
+    Optional('productCode'): str,
     'releasedEvent': Datetime('%Y-%m-%d'),
     'tracks': [track],
     'upc': str,
@@ -374,7 +374,7 @@ This schema is an extension of the :data:`product` schema.
 
 Args:
     albumReleaseType (str): The product type.
-    catalog_number (Optional[str]): The track bundle's catalog number.
+    catalogNumber (Optional[str]): The track bundle's catalog number.
     ean (Optional[str]): The track bundle's International Article
         Number.
     grid (Optional[str]): The track bundle's Global Release Identifier.
@@ -383,7 +383,7 @@ Args:
     numTracks (int): The number of tracks.
     numVolumes (int): The number of volumes that make up the
         track bundle.
-    product_code (Optional[str]): The track bundle's product code.
+    productCode (Optional[str]): The track bundle's product code.
     releasedEvent (Date): The product's release date.
     tracks (list): A list of tracks.
     upc (str): The track bundle's Universal Product Code.
@@ -393,14 +393,14 @@ Args:
 
 takedown = SchemaAllRequired({
     'action': 'takedown',
-    'amw_key': str,
+    'amwKey': str,
 }, extra=True)
 """Schema to validate a product takedown.
 
 Args:
     action (str): The action to be taken on the product specified by
-        ``amw_key``. Must be ``'takedown'``.
-    amw_key (str): The product's amw_key.
+        ``amwKey``. Must be ``'takedown'``.
+    amwKey (str): The product's amwKey.
 """
 
 delivery = Any(track_bundle, takedown)

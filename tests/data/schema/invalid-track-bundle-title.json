@@ -1,18 +1,18 @@
 {
     "action": "upsert",
-    "amw_key": "iHM_UPC",
+    "amwKey": "iHM_UPC",
     "artist": {
         "name": "Artist"
     },
-    "catalog_number": "catalognumber",
+    "catalogNumber": "catalognumber",
     "copyright": {
         "text": "2015 Copyright",
         "year": 2015
     },
     "duration": 1000,
-    "explicit_lyrics": true,
+    "explicitLyrics": true,
     "genre": "Rock",
-    "internal_id": "internalid",
+    "internalId": "internalid",
     "media": {
         "source": "/dev/null"
     },
@@ -22,7 +22,7 @@
         "labels": [
             {
                 "name": "Label",
-                "sub_labels": [
+                "subLabels": [
                     {
                         "countries": [
                             "CA",
@@ -48,7 +48,7 @@
     "tracks": [
         {
             "action": "upsert",
-            "amw_key": "iHM_UPC_ISRC",
+            "amwKey": "iHM_UPC_ISRC",
             "artist": {
                 "name": "Artist"
             },
@@ -56,7 +56,7 @@
                 "text": "2015 Copyright",
                 "year": 2015
             },
-            "explicit_lyrics": false,
+            "explicitLyrics": false,
             "index": 0,
             "isrc": "ISRC",
             "genre": "Genre",
@@ -67,7 +67,7 @@
                 "labels": [
                     {
                         "name": "Label",
-                        "sub_labels": [
+                        "subLabels": [
                             {
                                 "countries": [
                                     "CA",
