@@ -26,6 +26,7 @@ async def fanout(app, message):
         dict: A copy of the original message with its own ``job_id``.
 
     .. versionadded:: 1.1.0
+
     """
     message = deepcopy(message)
 
@@ -60,6 +61,7 @@ async def ignore_provider(app, message):
     Raises:
         henson.exceptions.Abort: The provider should be ignored.
         KeyError: No provider is included in the message.
+
     """
     provider = message['provider']
 
@@ -86,6 +88,7 @@ async def jsonify(app, message):
 
     Returns:
         bytes: The encoded message.
+
     """
     return json.dumps(message).encode('utf-8')
 
@@ -104,6 +107,7 @@ def normalize_isrc(isrc):
         str: The normalized ISRC.
 
     .. versionadded:: 1.1.0
+
     """
     return isrc.replace('-', '')
 
@@ -125,6 +129,7 @@ def normalize_upc(upc):
         str: The normalized UPC.
 
     .. versionadded:: 1.1.0
+
     """
     return upc.lstrip('0').zfill(12)
 
@@ -139,6 +144,7 @@ async def nosjify(app, message):
 
     Returns:
         dict: The decoded message.
+
     """
     return json.loads(message.body.decode('utf-8'))
 
@@ -180,6 +186,7 @@ async def prepare_incoming_message(app, message):
         The ``ancestor_ids`` key is added to messages.
 
     .. versionadded:: 1.0.0
+
     """
     now = datetime.utcnow().isoformat()
 
@@ -221,6 +228,7 @@ def prepare_outgoing_message(message):
         :func:`prepare_incoming_message`. The ``app_name`` and ``event``
         arguments have been removed and the function has been renamed to
         better distinguish itself from :func:`prepare_incoming_message`.
+
     """
     message['events'][-1]['updated_at'] = datetime.utcnow().isoformat()
     return message
@@ -235,6 +243,7 @@ async def send_error(message, *, producer):
     Args:
         message (dict): The message to send.
         producer: The producer through which to send the message.
+
     """
     # Preserve the incoming event.
     prepared_message = prepare_outgoing_message(message)

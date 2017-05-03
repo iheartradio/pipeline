@@ -57,7 +57,7 @@ class CommercialModelTypeInvalid(Invalid):
 
 
 def CommercialModelType(value):  # NOQA: N802
-    """Validator for CommercialModelType.
+    """Validate the commercialModelType.
 
     Args:
         value (str): The commercialModelType in the message.
@@ -70,6 +70,7 @@ def CommercialModelType(value):  # NOQA: N802
             is not defined in COMMERCIAL_MODEL_TYPES.
 
     .. versionadded: 1.1.0
+
     """
     if value not in COMMERCIAL_MODEL_TYPES:
         raise CommercialModelTypeInvalid(
@@ -88,6 +89,7 @@ def iter_errors(exc, data):
 
     Yields:
         ValidationError: The error.
+
     """
     # Get a copy of the original value so data can be reset in the loop.
     original = data
@@ -115,11 +117,12 @@ class UseTypeInvalid(Invalid):
     """The value is not a valid useType.
 
     .. versionadded: 1.1.0
+
     """
 
 
 def UseType(value):  # NOQA: N802
-    """Validator for useType.
+    """Validate the useType.
 
     Args:
         value (list): The useTypes in the message.
@@ -132,6 +135,7 @@ def UseType(value):  # NOQA: N802
             ``USE_TYPES``.
 
     .. versionadded: 1.1.0
+
     """
     for v in value:
         if v not in USE_TYPES:
@@ -153,6 +157,7 @@ def validate_schema(schema, message, logger=None):
 
     Returns:
         dict: The validated message upon successful validation.
+
     """
     try:
         return schema(message)
