@@ -294,6 +294,7 @@ product = SchemaAllRequired({
     'duration': str,
     'explicitLyrics': bool,
     'genre': str,
+    Optional('id'): int,
     Optional('internalId'): str,
     Optional('media'): media,
     'name': str,
@@ -314,6 +315,7 @@ Args:
     explicitLyrics (bool): Whether the product contains explicit
         lyrics.
     genre (str): The product's genre.
+    id (Optional(int)): The product's internal id in the Ingestion database.
     internalId (Optional[int]): The track's internal identifier.
     media (media): Media files associated with the product.
     name (str): The product's name.
