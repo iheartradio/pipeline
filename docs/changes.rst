@@ -13,6 +13,7 @@ Release TBD
 - Drop support for information related to physical products
 - Add ``normalize_isrc`` and ``normalize_upc`` to handle transforming raw
   identifiers into their normalized formats
+- Add ``purge`` schema to handle Sony purge deliveries
 
 Version 1.0.0
 =============
