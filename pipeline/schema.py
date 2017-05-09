@@ -57,7 +57,7 @@ class CommercialModelTypeInvalid(Invalid):
 
 
 def CommercialModelType(value):  # NOQA: N802
-    """Validate the commercialModelType.
+    """Validate CommercialModelType.
 
     Args:
         value (str): The commercialModelType in the message.
@@ -117,12 +117,11 @@ class UseTypeInvalid(Invalid):
     """The value is not a valid useType.
 
     .. versionadded: 1.1.0
-
     """
 
 
 def UseType(value):  # NOQA: N802
-    """Validate the useType.
+    """Validate useType.
 
     Args:
         value (list): The useTypes in the message.
@@ -409,6 +408,19 @@ Args:
     action (str): The action to be taken on the product specified by
         ``amwKey``. Must be ``'takedown'``.
     amwKey (str): The product's amwKey.
+"""
+
+purge = SchemaAllRequired({
+    'action': 'purge',
+    'grid': str,
+    'icpn': str,
+}, extra=True)
+"""Schema to validate a product purge.
+
+Args:
+    action (str): Must be 'purge', indicates which action persist should take.
+    grid (str): the GRiD for the product to be purged.
+    icpn (str): the ICPN for the product to be purged.
 """
 
 delivery = Any(track_bundle, takedown)
