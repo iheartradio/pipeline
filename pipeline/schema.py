@@ -423,7 +423,7 @@ Args:
     icpn (str): the ICPN for the product to be purged.
 """
 
-delivery = Any(track_bundle, takedown)
+delivery = Any(track_bundle, takedown, purge)
 """Schema to validate a partner delivery.
 
 Content must match the schema of either ``takedown`` or
