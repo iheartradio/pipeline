@@ -292,7 +292,7 @@ Args:
 # products
 product = SchemaAllRequired({
     'action': 'upsert',
-    'amwKey': str,
+    Optional('amwKey'): str,
     'artist': artist,
     'copyright': copyright,
     'duration': str,
@@ -400,7 +400,7 @@ Args:
 
 takedown = SchemaAllRequired({
     'action': 'takedown',
-    'amwKey': str,
+    Optional('amwKey'): str,
 }, extra=True)
 """Schema to validate a product takedown.
 
