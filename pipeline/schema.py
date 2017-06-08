@@ -302,7 +302,7 @@ product = SchemaAllRequired({
     Optional('internalId'): str,
     Optional('media'): media,
     'name': str,
-    'offers': [offer],
+    Optional('offers'): [offer],
     'provider': provider,
     Optional('publisher'): str,
     Optional('version'): str,
