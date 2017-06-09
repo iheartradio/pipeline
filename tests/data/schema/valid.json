@@ -97,6 +97,46 @@
             ],
             "volume": 1,
             "number": 1
+        },
+        {
+            "action": "upsert",
+            "amwKey": "iHM_UPC_ISRC",
+            "artist": {
+                "name": "Artist"
+            },
+            "copyright": {
+                "text": "2015 Copyright",
+                "year": 2015
+            },
+            "duration": "P12H30M5S",
+            "explicitLyrics": false,
+            "index": 0,
+            "isrcCode": "ISRC",
+            "genre": "Genre",
+            "media": {
+                "source": "/dev/null"
+            },
+            "name": "Title",
+            "provider": {
+                "labels": [
+                    {
+                        "name": "Label",
+                        "subLabels": [
+                            {
+                                "countries": [
+                                    "CA",
+                                    "US"
+                                ],
+                                "name": "Sub Label"
+                            }
+                        ]
+                    }
+                ],
+                "name": "Provider"
+            },
+            "offers": [],
+            "volume": 1,
+            "number": 1
         }
     ],
     "upc": "UPC"

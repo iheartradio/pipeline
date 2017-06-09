@@ -14,6 +14,7 @@ Release TBD
 - Add ``normalize_isrc`` and ``normalize_upc`` to handle transforming raw
   identifiers into their normalized formats
 - Add ``purge`` schema to handle Sony purge deliveries
+- Accept empty list as the ``offers`` field in ``product``
 
 Version 1.0.0
 =============
