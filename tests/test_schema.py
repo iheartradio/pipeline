@@ -193,7 +193,7 @@ def test_valid():
 
 def test_upsert():
     """Test the upsert schema."""
-    expected = load_json('valid.json')
+    expected = load_json('trouble.json')
     actual = schema.validate_schema(schema.delivery, expected)
     assert actual == expected
 
