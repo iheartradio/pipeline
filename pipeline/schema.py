@@ -29,8 +29,10 @@ COMMERCIAL_MODEL_TYPES = (
     'RightsClaimModel',
     'SubscriptionModel'
 )
+
 USE_TYPES = (
     'ConditionalDownload',
+    'iHeartCustom',
     'NonInteractiveStream',
     'OnDemandStream',
     'PermanentDownload'
