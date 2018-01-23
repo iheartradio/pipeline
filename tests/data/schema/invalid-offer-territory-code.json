@@ -1,0 +1,8 @@
+{
+    "commercialModelType": "SubscriptionModel",
+    "licensee": "iheart",
+    "territoryCode": 123,
+    "useType": ["ConditionalDownload"],
+    "validFrom": "2009-09-20T00:00:00.000000+00:00",
+    "validThrough": "2009-09-24T00:00:00.000000+00:00"
+} 

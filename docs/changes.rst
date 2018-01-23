@@ -16,6 +16,8 @@ Release TBD
 - Add ``purge`` schema to handle Sony purge deliveries
 - Accept empty list as the ``offers`` field in ``product``
 - Add ``Optional`` track level ``grid`` validation
+- Swapped ``offers`` date parsing validation from
+  ``voluptuous.Datetime`` -> ``python-dateutil.parser``
 
 Version 1.0.0
 =============
