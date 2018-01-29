@@ -315,6 +315,7 @@ Args:
 track_schema = product.schema.copy()
 track_schema.update({
     'genre': str,
+    Optional('grid'): str,
     'index': int,
     'isrc': str,
     'number': int,
@@ -329,6 +330,7 @@ track = SchemaAllRequired(track_schema)
 This schema is an extension of the :data:`product` schema.
 
 Args:
+    grid (Optional[str]): The track's Global Release Identifier.
     index (int): The track's index on the track bundle. This is often,
         but not always, based on the ``number``.
     isrc (str): The track's International Standard Recording Code.

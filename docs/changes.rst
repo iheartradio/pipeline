@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 0.3.0-cherry-pick-wmg-grid
+=============
+
+Released TBD
+
+- Add ``Optional`` track level ``grid`` validation
+
 Version 0.3.0
 =============
 
