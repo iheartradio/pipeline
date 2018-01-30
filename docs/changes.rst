@@ -15,6 +15,7 @@ Release TBD
   identifiers into their normalized formats
 - Add ``purge`` schema to handle Sony purge deliveries
 - Accept empty list as the ``offers`` field in ``product``
+- Add ``Optional`` track level ``grid`` validation
 
 Version 1.0.0
 =============
