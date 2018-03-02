@@ -5,6 +5,7 @@
 # cannot be consumed by help() or a REPL.
 
 from collections import namedtuple
+import dateutil.parser
 from functools import partial
 
 from henson.exceptions import Abort
@@ -145,6 +146,28 @@ def UseType(value):  # NOQA: N802
     return value
 
 
+def OffsetAwareDatetime(value):  # NOQA: N802
+    """Validate offset aware date time.
+
+    Args:
+        value (str): Date time.
+
+    Returns:
+        str: The same date time passed into the function.
+
+    Raises:
+        Invalid: If date time could not be parsed.
+
+    .. versionadded: 1.1.0
+
+    """
+    try:
+        dateutil.parser.parse(value)
+        return value
+    except (ValueError, OverflowError) as e:
+        raise Invalid('Could not parse date string: {}'.format(value))
+
+
 def validate_schema(schema, message, logger=None):
     """Validate a message against a schema.
 
@@ -272,8 +295,8 @@ offer = SchemaAllRequired({
     Optional('price'): str,
     'territoryCode': str,
     'useType': UseType,
-    'validFrom': Any(Datetime(), None),
-    'validThrough': Any(Datetime(), None),
+    'validFrom': Any(None, OffsetAwareDatetime),
+    'validThrough': Any(None, OffsetAwareDatetime),
 })
 """Schema to validate an offer.
 

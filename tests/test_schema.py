@@ -232,3 +232,22 @@ def test_validate_message_invalid(schema_, message):
     """Test that invalid messages fail to validate."""
     with pytest.raises(Abort):
         schema.validate_schema(schema_, message)
+
+def test_valid_offer():
+    """Test a valid offer."""
+    doc = load_json('valid-offer.json')
+    assert schema.offer(doc) == doc
+
+@pytest.mark.parametrize('message', [
+    'invalid-offer-commercial-model-type.json',
+    'invalid-offer-licensee.json',
+    'invalid-offer-territory-code.json',
+    'invalid-offer-use-type.json',
+    'invalid-offer-valid-from.json',
+    'invalid-offer-valid-to.json',
+])
+def test_invalid_offer(message):
+    """Test that invalid offers fail to validate."""
+    doc = load_json(message)
+    with pytest.raises(schema.MultipleInvalid):
+        schema.offer(doc)
