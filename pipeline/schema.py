@@ -11,7 +11,6 @@ from functools import partial
 from henson.exceptions import Abort
 from voluptuous import (
     Any,
-    Datetime,
     Invalid,
     MultipleInvalid,
     Optional,
@@ -395,7 +394,7 @@ track_bundle_schema.update({
     'numTracks': int,
     'numVolumes': int,
     Optional('productCode'): str,
-    'releasedEvent': Datetime('%Y-%m-%d'),
+    'releasedEvent': OffsetAwareDatetime,
     'tracks': [track],
     'upc': str,
     Optional('upcRaw'): str,
