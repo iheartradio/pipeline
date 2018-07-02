@@ -233,10 +233,12 @@ def test_validate_message_invalid(schema_, message):
     with pytest.raises(Abort):
         schema.validate_schema(schema_, message)
 
+
 def test_valid_offer():
     """Test a valid offer."""
     doc = load_json('valid-offer.json')
     assert schema.offer(doc) == doc
+
 
 @pytest.mark.parametrize('message', [
     'invalid-offer-commercial-model-type.json',
@@ -251,3 +253,9 @@ def test_invalid_offer(message):
     doc = load_json(message)
     with pytest.raises(schema.MultipleInvalid):
         schema.offer(doc)
+
+
+def test_valid_null_fields():
+    """Test a valid document with optional null fields."""
+    doc = load_json('valid-nulled-schema.json')
+    assert schema.track_bundle(doc) == doc

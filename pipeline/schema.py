@@ -194,7 +194,7 @@ def validate_schema(schema, message, logger=None):
 # shared sub-types
 artist = SchemaAllRequired({
     'name': str,
-    Optional('url'): str,
+    Optional('url'): Any(str, None),
 })
 """Schema to validate an artist.
 
@@ -216,7 +216,7 @@ Args:
 
 copyright = SchemaAllRequired({
     'text': str,
-    Optional('year'): int,
+    Optional('year'): Any(int, None),
 })
 """Schema to validate a copyright.
 
@@ -230,12 +230,12 @@ Args:
 # and one for images. They can inherit from media like track and
 # track_bundle inherit from product.
 media = SchemaAllRequired({
-    Optional('bitrate'): str,
-    Optional('channel'): int,
-    Optional('codec'): str,
-    Optional('count'): int,
-    Optional('number'): int,
-    Optional('sampleRate'): str,
+    Optional('bitrate'): Any(str, None),
+    Optional('channel'): Any(int, None),
+    Optional('codec'): Any(str, None),
+    Optional('count'): Any(int, None),
+    Optional('number'): Any(int, None),
+    Optional('sampleRate'): Any(str, None),
     'source': str,
 })
 """Schema to validate media.
@@ -256,7 +256,7 @@ Args:
 
 # provider-related schemas
 sub_label = SchemaAllRequired({
-    Optional('name'): str,
+    Optional('name'): Any(str, None),
     'countries': [str],
 })
 """Schema to valid a sub label.
@@ -291,11 +291,11 @@ Args:
 offer = SchemaAllRequired({
     'commercialModelType': CommercialModelType,
     'licensee': str,
-    Optional('price'): str,
+    Optional('price'): Any(str, None),
     'territoryCode': str,
     'useType': UseType,
-    'validFrom': Any(None, OffsetAwareDatetime),
-    'validThrough': Any(None, OffsetAwareDatetime),
+    'validFrom': Any(OffsetAwareDatetime, None),
+    'validThrough': Any(OffsetAwareDatetime, None),
 })
 """Schema to validate an offer.
 
@@ -322,14 +322,14 @@ product = SchemaAllRequired({
     'duration': str,
     'explicitLyrics': bool,
     'genre': str,
-    Optional('id'): int,
-    Optional('internalId'): str,
-    Optional('media'): media,
+    Optional('id'): Any(int, None),
+    Optional('internalId'): Any(str, None),
+    Optional('media'): Any(media, None),
     'name': str,
     Optional('offers'): [offer],
     'provider': provider,
-    Optional('publisher'): str,
-    Optional('version'): str,
+    Optional('publisher'): Any(str, None),
+    Optional('version'): Any(str, None),
 })
 """Schema to validate a product.
 
@@ -355,14 +355,14 @@ Args:
 
 track_schema = product.schema.copy()
 track_schema.update({
-    Optional('alternativeName'): str,
+    Optional('alternativeName'): Any(str, None),
     'genre': str,
-    Optional('grid'): str,
+    Optional('grid'): Any(str, None),
     'index': int,
     'isrcCode': str,
-    Optional('isrcCodeRaw'): str,
+    Optional('isrcCodeRaw'): Any(str, None),
     'number': int,
-    Optional('participants'): [participant],
+    Optional('participants'): Any([participant], None),
     'volume': int,
 })
 
@@ -387,17 +387,17 @@ Args:
 track_bundle_schema = product.schema.copy()
 track_bundle_schema.update({
     'albumReleaseType': str,
-    Optional('catalogNumber'): str,
-    Optional('ean'): str,
-    Optional('grid'): str,
-    Optional('icpn'): str,
+    Optional('catalogNumber'): Any(str, None),
+    Optional('ean'): Any(str, None),
+    Optional('grid'): Any(str, None),
+    Optional('icpn'): Any(str, None),
     'numTracks': int,
     'numVolumes': int,
-    Optional('productCode'): str,
+    Optional('productCode'): Any(str, None),
     'releasedEvent': OffsetAwareDatetime,
     'tracks': [track],
     'upc': str,
-    Optional('upcRaw'): str,
+    Optional('upcRaw'): Any(str, None),
 })
 
 track_bundle = SchemaAllRequired(track_bundle_schema)

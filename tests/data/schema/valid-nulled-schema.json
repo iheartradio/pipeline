@@ -1,0 +1,144 @@
+{
+    "action": "upsert",
+    "albumReleaseType": "Single",
+    "amwKey": "EMS_4260100940705",
+    "artist": {
+        "name": "Fäbson"
+    },
+    "catalogNumber": "4260100940705",
+    "copyright": {
+        "text": "ILM Records",
+        "year": null
+    },
+    "duration": "PT3M55S",
+    "ean": null,
+    "explicitLyrics": false,
+    "genre": "Deutschspr. HipHop /- Rap",
+    "grid": null,
+    "icpn": null,
+    "internalId": null,
+    "media": {
+        "count": null,
+        "number": null,
+        "source": "/test-bucket/4260100940705_1200.jpg"
+    },
+    "name": "Mama",
+    "numTracks": 1,
+    "numVolumes": 1,
+    "offers": [
+        {
+            "commercialModelType": "SubscriptionModel",
+            "licensee": "iheart",
+            "territoryCode": "WW",
+            "useType": [
+                "OnDemandStream",
+                "ConditionalDownload"
+            ],
+            "validFrom": "2017-09-15T00:00:00.000000+00:00",
+            "validThrough": "2100-01-01T00:00:00.000000+00:00"
+        },
+        {
+            "commercialModelType": "AdvertisementSupportedModel",
+            "licensee": "iheart",
+            "territoryCode": "WW",
+            "useType": [
+                "NonInteractiveStream"
+            ],
+            "validFrom": "2017-09-15T00:00:00.000000+00:00",
+            "validThrough": "2100-01-01T00:00:00.000000+00:00"
+        }
+    ],
+    "productCode": null,
+    "provider": {
+        "labels": [
+            {
+                "name": "ILM Records",
+                "subLabels": [
+                    {
+                        "countries": [
+                            "ALL"
+                        ],
+                        "name": null
+                    }
+                ]
+            }
+        ],
+        "name": "Zebralution GmbH"
+    },
+    "publisher": "ILM Records",
+    "releasedEvent": "2017-09-15",
+    "tracks": [
+        {
+            "action": "upsert",
+            "alternativeName": "Mama",
+            "amwKey": "EMS_4260100940705_DEUD91708166_1_1",
+            "artist": {
+                "name": "Fäbson"
+            },
+            "copyright": {
+                "text": "ILM Records",
+                "year": null
+            },
+            "duration": "PT3M55S",
+            "explicitLyrics": false,
+            "genre": "Deutschspr. HipHop /- Rap",
+            "grid": null,
+            "index": 0,
+            "internalId": null,
+            "isrcCode": "DEUD91708166",
+            "media": {
+                "bitrate": null,
+                "channel": null,
+                "codec": null,
+                "sampleRate": null,
+                "source": "/test-bucket/4260100940705_001_001_v1411.flac"
+            },
+            "name": "Mama",
+            "number": 1,
+            "offers": [
+                {
+                    "commercialModelType": "SubscriptionModel",
+                    "licensee": "iheart",
+                    "territoryCode": "AU",
+                    "useType": [
+                        "OnDemandStream",
+                        "ConditionalDownload"
+                    ],
+                    "validFrom": "2017-09-15T00:00:00.000000+00:00",
+                    "validThrough": "2100-01-01T00:00:00.000000+00:00"
+                },
+                {
+                    "commercialModelType": "AdvertisementSupportedModel",
+                    "licensee": "iheart",
+                    "territoryCode": "AU",
+                    "useType": [
+                        "NonInteractiveStream"
+                    ],
+                    "validFrom": "2017-09-15T00:00:00.000000+00:00",
+                    "validThrough": "2100-01-01T00:00:00.000000+00:00"
+                }
+            ],
+            "provider": {
+                "labels": [
+                    {
+                        "name": "ILM Records",
+                        "subLabels": [
+                            {
+                                "countries": [
+                                    "ALL"
+                                ],
+                                "name": "ILM Records"
+                            }
+                        ]
+                    }
+                ],
+                "name": "Zebralution GmbH"
+            },
+            "publisher": null,
+            "version": null,
+            "volume": 1
+        }
+    ],
+    "upc": "4260100940705",
+    "version": null
+}
