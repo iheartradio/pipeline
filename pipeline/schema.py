@@ -163,7 +163,7 @@ def OffsetAwareDatetime(value):  # NOQA: N802
     try:
         dateutil.parser.parse(value)
         return value
-    except (ValueError, OverflowError) as e:
+    except (TypeError, ValueError, OverflowError):
         raise Invalid('Could not parse date string: {}'.format(value))
 
 
@@ -194,7 +194,7 @@ def validate_schema(schema, message, logger=None):
 # shared sub-types
 artist = SchemaAllRequired({
     'name': str,
-    Optional('url'): Any(str, None),
+    Optional('url'): Any(None, str),
 })
 """Schema to validate an artist.
 
@@ -216,7 +216,7 @@ Args:
 
 copyright = SchemaAllRequired({
     'text': str,
-    Optional('year'): Any(int, None),
+    Optional('year'): Any(None, int),
 })
 """Schema to validate a copyright.
 
@@ -230,12 +230,12 @@ Args:
 # and one for images. They can inherit from media like track and
 # track_bundle inherit from product.
 media = SchemaAllRequired({
-    Optional('bitrate'): Any(str, None),
-    Optional('channel'): Any(int, None),
-    Optional('codec'): Any(str, None),
-    Optional('count'): Any(int, None),
-    Optional('number'): Any(int, None),
-    Optional('sampleRate'): Any(str, None),
+    Optional('bitrate'): Any(None, str),
+    Optional('channel'): Any(None, int),
+    Optional('codec'): Any(None, str),
+    Optional('count'): Any(None, int),
+    Optional('number'): Any(None, int,),
+    Optional('sampleRate'): Any(None, str),
     'source': str,
 })
 """Schema to validate media.
@@ -256,7 +256,7 @@ Args:
 
 # provider-related schemas
 sub_label = SchemaAllRequired({
-    Optional('name'): Any(str, None),
+    Optional('name'): Any(None, str),
     'countries': [str],
 })
 """Schema to valid a sub label.
@@ -291,11 +291,11 @@ Args:
 offer = SchemaAllRequired({
     'commercialModelType': CommercialModelType,
     'licensee': str,
-    Optional('price'): Any(str, None),
+    Optional('price'): Any(None, str),
     'territoryCode': str,
     'useType': UseType,
-    'validFrom': Any(OffsetAwareDatetime, None),
-    'validThrough': Any(OffsetAwareDatetime, None),
+    'validFrom': Any(None, OffsetAwareDatetime),
+    'validThrough': Any(None, OffsetAwareDatetime),
 })
 """Schema to validate an offer.
 
@@ -322,14 +322,14 @@ product = SchemaAllRequired({
     'duration': str,
     'explicitLyrics': bool,
     'genre': str,
-    Optional('id'): Any(int, None),
-    Optional('internalId'): Any(str, None),
-    Optional('media'): Any(media, None),
+    Optional('id'): Any(None, int),
+    Optional('internalId'): Any(None, str),
+    Optional('media'): Any(None, media),
     'name': str,
     Optional('offers'): [offer],
     'provider': provider,
-    Optional('publisher'): Any(str, None),
-    Optional('version'): Any(str, None),
+    Optional('publisher'): Any(None, str),
+    Optional('version'): Any(None, str),
 })
 """Schema to validate a product.
 
@@ -355,14 +355,14 @@ Args:
 
 track_schema = product.schema.copy()
 track_schema.update({
-    Optional('alternativeName'): Any(str, None),
+    Optional('alternativeName'): Any(None, str),
     'genre': str,
-    Optional('grid'): Any(str, None),
+    Optional('grid'): Any(None, str),
     'index': int,
     'isrcCode': str,
-    Optional('isrcCodeRaw'): Any(str, None),
+    Optional('isrcCodeRaw'): Any(None, str),
     'number': int,
-    Optional('participants'): Any([participant], None),
+    Optional('participants'): Any(None, [participant]),
     'volume': int,
 })
 
@@ -387,17 +387,17 @@ Args:
 track_bundle_schema = product.schema.copy()
 track_bundle_schema.update({
     'albumReleaseType': str,
-    Optional('catalogNumber'): Any(str, None),
-    Optional('ean'): Any(str, None),
-    Optional('grid'): Any(str, None),
-    Optional('icpn'): Any(str, None),
+    Optional('catalogNumber'): Any(None, str),
+    Optional('ean'): Any(None, str),
+    Optional('grid'): Any(None, str),
+    Optional('icpn'): Any(None, str),
     'numTracks': int,
     'numVolumes': int,
-    Optional('productCode'): Any(str, None),
+    Optional('productCode'): Any(None, str),
     'releasedEvent': OffsetAwareDatetime,
     'tracks': [track],
     'upc': str,
-    Optional('upcRaw'): Any(str, None),
+    Optional('upcRaw'): Any(None, str),
 })
 
 track_bundle = SchemaAllRequired(track_bundle_schema)
