@@ -200,8 +200,6 @@ async def prepare_incoming_message(app, message):
 
     if 'events' not in message:
         message['events'] = []
-    elif message['events']:
-        message['events'][-1]['message'] = deepcopy(message['message'])
 
     message['events'].append({
         'app': app.name,

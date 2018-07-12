@@ -2,10 +2,17 @@
 Changelog
 =========
 
-Version 1.1.0
+Version 2.1.0
 ==============
 
-Release TBD
+Released 2018-07-19
+
+- Reduce bread crumb message size
+
+Version 2.0.0
+==============
+
+Released 2018-07-05
 
 - Update the message schema to a derivative of schema.org's MusicAlbum_
 - Add ``fanout`` to generate unique a ``job_id`` for outgoing messages sent by
@@ -18,6 +25,8 @@ Release TBD
 - Add ``Optional`` track level ``grid`` validation
 - Swapped ``offers`` date parsing validation from
   ``voluptuous.Datetime`` -> ``python-dateutil.parser``
+- Add ``None`` as acceptable for Optional fields in the product document schema
+- Handle ``None`` in OffsetAwareDatetime
 
 Version 1.0.0
 =============
