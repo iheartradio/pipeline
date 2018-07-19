@@ -67,11 +67,11 @@ async def test_job_id_is_preserved(test_app):
 
 
 @pytest.mark.asyncio
-async def test_message_is_hoisted_to_previous_event(test_app):
-    """Test that the message is copied to the previous event."""
+async def test_app_is_hoisted_to_previous_event(test_app):
+    """Test that the app is copied to the previous event."""
     actual = await prepare_incoming_message(
-        test_app, {'events': [{}], 'message': 1})
-    assert actual['events'][-2]['message'] == 1
+        test_app, {'message': 1})
+    assert actual['events'][-1]['app'] == test_app.name
 
 
 @pytest.mark.parametrize('key', (
