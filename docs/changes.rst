@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 2.1.1
+==============
+
+Released 2018-07-24
+
+- Add Uppercase to ISRC normalization
+
 Version 2.1.0
 ==============
 
