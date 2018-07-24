@@ -98,7 +98,7 @@ def normalize_isrc(isrc):
 
     ISRCs can be displayed with dashes to make them easier to read. The
     values themselves, however, do not contain them. Before comparing
-    one ISRC to another, any dashes should be stripped.
+    one ISRC to another, any dashes should be stripped, and uppercased.
 
     Args:
         isrc (str): The ISRC value to be transformed.
@@ -109,7 +109,7 @@ def normalize_isrc(isrc):
     .. versionadded:: 1.1.0
 
     """
-    return isrc.replace('-', '')
+    return isrc.replace('-', '').upper()
 
 
 def normalize_upc(upc):

@@ -24,6 +24,16 @@ def test_normalize_isrc_unchanged(isrc):
     assert isrc == pipeline.normalize_isrc(isrc)
 
 
+@pytest.mark.parametrize('isrc, expected', (
+    ('qm-9k-3120-0284', 'QM9K31200284'),
+    ('qm9k31200284', 'QM9K31200284'),
+))
+def test_upper_cased_normalize_isrc(isrc, expected):
+    """Test that ISRCs with dashes are transformed."""
+    actual = pipeline.normalize_isrc(isrc)
+    assert actual == expected
+
+
 @pytest.mark.parametrize('upc, expected', (
     ('00616892587125', '616892587125'),
     ('00076743106828', '076743106828'),
