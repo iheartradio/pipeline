@@ -215,13 +215,13 @@ Args:
 """
 
 copyright = SchemaAllRequired({
-    'text': str,
+    Optional('text'): Any(None, str),
     Optional('year'): Any(None, int),
 })
 """Schema to validate a copyright.
 
 Args:
-    text (str): The full copyright text.
+    text (Optional(str)): The full copyright text.
     year (Optional[int]): The copyright year.
 """
 
