@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 2.2.1
+==============
+
+Released 2018-09-13
+
+- Update ``copyright`` to be ``Optional``
+
 Version 2.1.1
 ==============
 
