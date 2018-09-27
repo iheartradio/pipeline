@@ -2,12 +2,40 @@
 
 from copy import deepcopy
 from datetime import datetime
+from functools import wraps
 import json
+from time import time
 import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('fanout', 'ignore_provider', 'jsonify', 'normalize_isrc', 'normalize_upc', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
+__all__ = ('async_timed', 'fanout', 'ignore_provider', 'jsonify', 'normalize_isrc', 'normalize_upc', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
+
+
+def async_timed(log_fun):
+    """Print the execution time for the decorated async function.
+
+    Args:
+        log_fun (logger func): function to be called to log.
+            Allows controlling log level via parameter.
+        asynced (bool): boolean flag to let deocrator handle
+            couroutines. False by default.
+    Returns:
+        decorator: a function wrapped in a timed logging function.
+
+    """
+    def wrapper(func):
+        @wraps(func)
+        async def inner(*args, **kwargs):
+            start = time()
+            result = await func(*args, **kwargs)
+            end = time()
+            log_fun("Elapsed {} time: {}".format(
+                func.__name__, round(end - start, 4))
+            )
+            return result
+        return inner
+    return wrapper
 
 
 async def fanout(app, message):
