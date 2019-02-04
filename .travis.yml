@@ -22,12 +22,5 @@ branches:
 
 # Notify us about build status.
 notifications:
-  hipchat:
-    rooms:
-      # Generated from: travis encrypt <API key>@<Room ID>
-      secure: "X7yZDA4r4iC+Imm5BtxRUHUmBGM97d9Olx+OgSj+cKhY36Pjci7HmdXoHOmZnpzNPEbv0P1CVY5jd1LKpBUZ/HoB7bg3w3Od3P1Dhh5X/na8xoGj7X6D2VWFHQQQYAVqDYQy88t5gFetGoUzVCVPb0KmTRvg6XtkSQctaxJQS6sSHoXU/3grng/6Q/Oj7mxEpsA3k/aJ3JZcR4LjB3fEhXCKrXLMfALqRiHdz0kCjPQOIzobGk/rQ3QS2Ad2xKGE99ovNfJ2R0WyQBr7o8wRec3yJFnf6E5WHm+S0M1U3m+wPwAcdCdgwN2YtvfiWFcUH+XADXbKbk5VTQP4y5OE/ENw8etqgaIX4TBDTxB395TQjAuPc2FmmuWm+IrQNCJ3N4qij77MfSw74kNVVlIJ65PxJdpnYxQXhe5W4Siomevdsdrre/fAV8uAD8nq4cPbvv/pf6YmMGY6DpkSvkbCrVgCpTMQB+d6NAfCrCSudnGFu433zS2+hvzobZPFEdmHUqgCHNTRbJj00N7QleNB5SorpBtGlv4fkLkMmaRRolI9XX+IpKywFbxKBckiQ2ynXsKaVTFzHDA+vBAcyklqwTWQOMUANo2Wb/3k1c1iUAS8MaHama/Jji5oBJiTyqF0VzEA5yNcFoKwgMmGkGCuMyzstYY13QElcH8QdeH5f5A="
-    template:
-      - '%{author} pushed "%{commit_subject}" (%{commit}) to <strong>%{repository_name}</strong>. %{message}<br><a href="%{compare_url}">View the pull request.</a><br><a href="%{build_url}">View build #%{build_number}.</a>'
-    format: html
   slack:
-    secure: AjzyBsgkXSOTjAxow1uOf5ShNR0QHzcNQ1sBk1LXCQCcsED1E9ouVdaQ3r9hHGbFVfe/E5f0Or4BQt+4QUoTZJp3AJJEo+b2mR+H8Yc5pmtTDoN/Q8QsBi1WxYLNCOp4AuLYFQx6qRE0Ub/Ubo5LpnpscC/Kq6RmUwKAAMVUXKqjbCwvLSpcKlO4EPuE89uHHDG8pbkxDeXZA3JvFLY7ICWgPXIJVPYoYkjUJKE6ui120pyDDPP8H7V5r6RVdNR1wGn1LmqT/2ucSYWVHUafYE7bUc8WDVglHDfcIl9Oq6lf4rOcM5mcpL/aoM1n+1MF/1w4xdtDyRGV0Pixso6fyL08+7sSE3/ojx0Vywyikx7WVbCyR9dSJ/K1m3KS00rh/OKSZB6QY5h1Crd54MAXPK7Qklq03yXJMI6RfOpk5+Tz6BW6LVkE2ovl/+8UTRu2TP+x6pPstwPtne+8Z1UIxzSH5r7e5gBoePY1kiRj5u4S127DtqZvj/ld4z/csXJWxVrusjsWSwOlq5d2d0tp/c/826BwO1KamV5/sZ9UMtTmIxZdlJbx3wqXqhqjslVngN9h6duy8kD+F2xIbR8o5dvuJ385TJo5CALS24y1nkW4MJUZYLOiIV0G+79Jrc86/nOIWKCRfRADlH2Gr/ZnzcaCQpS/cXLQTsm6SoILIUk=
+    secure: "CHKgj1B8KsG7aTvCrOfZjg5B7QQoZGkz/H8DcPS+ObCPyYZPHmrxmXz+ULY6B/HQ/naWIKIPsI6iunIZURZ+8Gr/hFG+w+kqNCNPpGFC5+phXUnUx+Oq8qPvrue5uJoEQs90ESJyvX+EhEzNwG+hTUVTuLRzRLS9gWrI9Sccpy4vPmT36DWgcK7Pfr3i/oGHj9NymOwJ/YigWNAtkRbpjftq2plxoLrPzCH0fsgJJFv1CRqZyG3NhmLT4B8AUh9KEjvuQoG4GrtEsgmlplqd2iY9XJQzLPp5ZDLGRKfQIMqJxJZy9pXACgZ+FEIN9LuV5ftikr3CokxVfwyH3uLc04o+LfFn9UxRbmwAFUdKsqAbMW/pxoxEeCr4jeUngOrmmXQ/6jYkr7MWVZOfk4xvsp8rN45LJtjUF7QfBVuU7qh6tzGD77oJZv6P83hZxN6FzaXviARSWN6UztepYISZuRQ1Shi1qTiWdJbcw8JKq7zv/eQMmCZjNfN2aSbiirOYlsM3rMO67u9BPCh8iXnLIVLik9/8lwj5ZGBtecZkqspRyndJ1hUaZV+teoidKX3hdAseJ+6h3sK/PSV89xulXNfzgg2MRylkhPJ6z6bLgYE6H259HJm++R27tKCuZZIPzUamFWdB8aqejMh7Bp2TOFmU/tmC5tK2b84D0nxe7GU="
