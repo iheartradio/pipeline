@@ -250,7 +250,8 @@ async def send_error(message, *, producer):
     await producer.error(serialized_message)
 
 
-async def send_message(message, *, producer, routing_key=None):
+async def send_message(
+        message, *, producer, exchange_name=None, routing_key=None):
     """Send an outgoing message.
 
     ``message`` will be updated with the common message structure and
@@ -263,12 +264,15 @@ async def send_message(message, *, producer, routing_key=None):
             through to the producer's ``send`` method. Defaults to
             ``None``.
 
-    .. versionchanged:: 1.0.0
+    .. versionchanged:: 2.4.0
 
-        The ``event`` argument is being removed because
-        ``prepare_outgoing_message`` no longer accepts it.
+        Support for ``exchange_name`` added.
     """
     prepared_message = prepare_outgoing_message(message)
     # TODO: This should be done in a separate step.
     serialized_message = await jsonify(producer.app, prepared_message)
-    await producer.send(serialized_message, routing_key=routing_key)
+    await producer.send(
+        serialized_message,
+        exchange_name=exchange_name,
+        routing_key=routing_key,
+    )

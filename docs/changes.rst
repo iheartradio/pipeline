@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 2.4.0
+==============
+
+Released 2019-02-22
+
+- Support for ``exchange_name`` added
+
 Version 2.3.0
 ==============
 
