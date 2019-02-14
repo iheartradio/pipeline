@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 2.3.0
+==============
+
+Released 2019-02-13
+
+- Update ``genre`` to be ``Optional``
+
 Version 2.2.0
 ==============
 

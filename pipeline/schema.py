@@ -321,7 +321,7 @@ product = SchemaAllRequired({
     'copyright': copyright,
     'duration': str,
     'explicitLyrics': bool,
-    'genre': str,
+    Optional('genre'): Any(None, str),
     Optional('id'): Any(None, int),
     Optional('internalId'): Any(None, str),
     Optional('media'): Any(None, media),
@@ -356,7 +356,7 @@ Args:
 track_schema = product.schema.copy()
 track_schema.update({
     Optional('alternativeName'): Any(None, str),
-    'genre': str,
+    Optional('genre'): Any(None, str),
     Optional('grid'): Any(None, str),
     'index': int,
     'isrcCode': str,
