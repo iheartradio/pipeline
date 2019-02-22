@@ -33,9 +33,10 @@ class Producer:
         """Mock send an error message."""
         self.sent_error = message
 
-    async def send(self, message, *, routing_key=None):
+    async def send(self, message, *, exchange_name=None, routing_key=None):
         """Mock send a message."""
         self.sent_message = message
+        self.exchange_name = exchange_name
         self.routing_key = routing_key
 
 
