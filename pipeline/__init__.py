@@ -3,11 +3,34 @@
 from copy import deepcopy
 from datetime import datetime
 import json
+import logging
+import time
 import uuid
 
 from henson.exceptions import Abort
 
-__all__ = ('fanout', 'ignore_provider', 'jsonify', 'normalize_isrc', 'normalize_upc', 'nosjify', 'prepare_incoming_message', 'prepare_outgoing_message', 'send_error', 'send_message')  # noqa
+import pika
+
+
+__all__ = (
+    'basic_publish',
+    'create_rabbitmq_connection',
+    'fanout',
+    'get_config',
+    'get_logger',
+    'ignore_provider',
+    'jsonify',
+    'normalize_isrc',
+    'normalize_upc',
+    'nosjify',
+    'prepare_incoming_message',
+    'prepare_outgoing_message',
+    'send_error',
+    'send_message',
+    'synchronous_jsonify',
+    'synchronous_nosjify',
+    'synchronous_prepare_incoming_message',
+)
 
 
 async def fanout(app, message):
@@ -276,3 +299,163 @@ async def send_message(
         exchange_name=exchange_name,
         routing_key=routing_key,
     )
+
+
+def get_config(settings_obj):
+    """Generate config dictionary from settings object.
+
+    Args:
+        settings_obj (object): Settings object.
+
+    Return:
+        dict: Config dictionary.
+
+    """
+    config = {}
+    for key in dir(settings_obj):
+        if key.isupper():
+            config[key] = getattr(settings_obj, key)
+    return config
+
+
+def get_logger(config, app_name):
+    """Return a configured logger.
+
+    Args:
+        config (dict): Configuration dictionary.
+        app_name (str): Name of application.
+
+    Returns:
+        logging.logger: Configured logger.
+
+    """
+    # Set proper time zone
+    logging.Formatter.converter = time.gmtime
+
+    # Get handlers
+    logger = logging.getLogger(app_name)
+    handlers = []
+    handlers.append(logging.StreamHandler())
+    if config['LOG_FILE'] is not None:
+        handlers.append(
+            logging.handlers.WatchedFileHandler(config['LOG_FILE'])
+        )
+
+    # Create format of log
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+    # Finish configuring logger
+    if (logger.hasHandlers()):
+        logger.handlers.clear()
+    for handler in handlers:
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    # Set logging level
+    logger.setLevel(config['LOG_LEVEL'])
+
+    return logger
+
+
+def create_rabbitmq_connection(config):
+    """Return a RabbitMQ connection.
+
+    Args:
+        config (dict): Configuration dictionary.
+
+    Returns:
+        A new RabbitMQ connection.
+
+    """
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(
+            host=config['AMQP_HOST'],
+            port=config['AMQP_PORT'],
+            virtual_host=config['AMQP_VIRTUAL_HOST'],
+            heartbeat=config['AMQP_HEARTBEAT_INTERVAL'],
+            credentials=pika.PlainCredentials(
+                username=config['AMQP_USERNAME'],
+                password=config['AMQP_PASSWORD'],
+            ),
+        )
+    )
+    return connection
+
+
+def basic_publish(message, channel, config, routing_key='#'):
+    """Publish message.
+
+    Args:
+        message (json): Outgoing message.
+        channel (pika.channel.Channel): AMQP Channel.
+        config (dict): Configuration dictionary.
+        routing_key (str): Exchange routing key.
+    """
+    channel.basic_publish(
+        exchange=config['AMQP_OUTBOUND_EXCHANGE'],
+        routing_key=routing_key,
+        body=message,
+        properties=pika.BasicProperties(
+            delivery_mode=config['AMQP_DELIVERY_MODE']
+        ),
+    )
+
+
+def synchronous_nosjify(message):
+    """Return a decoded dictionary.
+
+    Args:
+        message: The message to decode.
+
+    Returns:
+        dict: The decoded message.
+
+    """
+    return json.loads(message.decode('utf-8'))
+
+
+def synchronous_jsonify(message):
+    """Return an encoded dictionary.
+
+    Args:
+        message (dict): The message to encode.
+
+    Returns:
+        bytes: The encoded message.
+
+    """
+    return json.dumps(message).encode('utf-8')
+
+
+def synchronous_prepare_incoming_message(message):
+    """Prepare the incoming message with the common message structure.
+
+    Args:
+        message (dict): The incoming message.
+
+    Returns:
+        dict: The prepared message.
+
+    """
+    now = datetime.utcnow().isoformat()
+
+    if not message.get('job_id'):
+        message['job_id'] = str(uuid.uuid4())
+
+    message.setdefault('ancestor_ids', [])
+
+    if not message.get('originated_at'):
+        message['originated_at'] = now
+
+    if 'events' not in message:
+        message['events'] = []
+
+    message['events'].append({
+        'app': 'podcasts',
+        'event_id': str(uuid.uuid4()),
+        'received_at': now,
+    })
+
+    return message
