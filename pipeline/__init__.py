@@ -334,24 +334,22 @@ def get_logger(config, app_name):
 
     # Get handlers
     logger = logging.getLogger(app_name)
-    handlers = []
-    handlers.append(logging.StreamHandler())
-    if config['LOG_FILE'] is not None:
-        handlers.append(
-            logging.handlers.WatchedFileHandler(config['LOG_FILE'])
-        )
+    log_file = config['LOG_FILE']
+    if log_file is None:
+        handler = logging.StreamHandler()
+    else:
+        handler = logging.handlers.WatchedFileHandler(log_file)
 
     # Create format of log
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
-    # Finish configuring logger
+    # Finish configuring handler
     if (logger.hasHandlers()):
         logger.handlers.clear()
-    for handler in handlers:
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
     # Set logging level
     logger.setLevel(config['LOG_LEVEL'])
