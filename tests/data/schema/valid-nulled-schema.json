@@ -3,7 +3,8 @@
     "albumReleaseType": "Single",
     "amwKey": "EMS_4260100940705",
     "artist": {
-        "name": "Fäbson"
+        "name": "Fäbson",
+        "artists": []
     },
     "catalogNumber": "4260100940705",
     "copyright": {
@@ -73,7 +74,8 @@
             "alternativeName": "Mama",
             "amwKey": "EMS_4260100940705_DEUD91708166_1_1",
             "artist": {
-                "name": "Fäbson"
+                "name": "Fäbson",
+                "artists": []
             },
             "copyright": {
                 "text": "ILM Records",

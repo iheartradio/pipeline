@@ -3,7 +3,14 @@
     "albumReleaseType": "Album",
     "amwKey": "iHM_UPC",
     "artist": {
-        "name": "Artist"
+        "name": "Artist",
+        "artists": [
+            {
+                "artist_name": "Artist",
+                "artist_role": "Main Artist",
+                "sequence_number": 1
+            }
+        ]
     },
     "catalogNumber": "catalognumber",
     "copyright": {
@@ -53,7 +60,14 @@
             "action": "upsert",
             "amwKey": "iHM_UPC_ISRC",
             "artist": {
-                "name": "Artist"
+                "name": "Artist",
+                "artists": [
+                    {
+                        "artist_name": "Artist",
+                        "artist_role": "Main Artist",
+                        "sequence_number": 1
+                    }
+                ]
             },
             "copyright": {
                 "text": "2015 Copyright",
@@ -102,7 +116,14 @@
             "action": "upsert",
             "amwKey": "iHM_UPC_ISRC",
             "artist": {
-                "name": "Artist"
+                "name": "Artist",
+                "artists": [
+                    {
+                        "artist_name": "Artist",
+                        "artist_role": "Main Artist",
+                        "sequence_number": 1
+                    }
+                ]
             },
             "copyright": {
                 "text": "2015 Copyright",

@@ -194,6 +194,12 @@ def validate_schema(schema, message, logger=None):
 # shared sub-types
 artist = SchemaAllRequired({
     'name': str,
+    Optional('artists'): [Any(
+        None, Schema({
+            'artist_name': str,
+            'artist_role': str,
+            'sequence_number': Any(None, int),
+        }))],
     Optional('url'): Any(None, str),
 })
 """Schema to validate an artist.
