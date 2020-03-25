@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 2.5.0
+==============
+
+Released 2020-03-25
+
+- Adding an optional ``artists`` key in the artist schema,
+  this lists the individual artists if present in the DDEX delivery.
+
 Version 2.4.0
 ==============
 
