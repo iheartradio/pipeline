@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import datetime
 import json
 import logging
+import ssl
 import time
 import uuid
 
@@ -367,6 +368,11 @@ def create_rabbitmq_connection(config):
         A new RabbitMQ connection.
 
     """
+    ssl_options = None
+    if config['AMQP_PORT'] == 5672:
+        context = ssl.create_default_context()
+        ssl_options = pika.SSLOptions(context=context)
+        
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
             host=config['AMQP_HOST'],
@@ -377,6 +383,7 @@ def create_rabbitmq_connection(config):
                 username=config['AMQP_USERNAME'],
                 password=config['AMQP_PASSWORD'],
             ),
+            ssl_options=ssl_options,
         )
     )
     return connection
