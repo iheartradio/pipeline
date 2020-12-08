@@ -369,7 +369,7 @@ def create_rabbitmq_connection(config):
 
     """
     ssl_options = None
-    if config['AMQP_PORT'] == 5672:
+    if config['AMQP_PORT'] == 5671:
         context = ssl.create_default_context()
         ssl_options = pika.SSLOptions(context=context)
         
