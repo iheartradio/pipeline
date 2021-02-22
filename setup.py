@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='pipeline',
+    name='pipeline-ihr',
     version='2.5.0',
     packages=find_packages(exclude=['tests']),
     install_requires=[
