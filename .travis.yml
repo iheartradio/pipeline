@@ -5,15 +5,32 @@ language: python
 python: 3.6
 
 # Install the test runner.
-install: pip install tox
+install:
+  - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - unzip awscliv2.zip
+  - sudo ./aws/install
+  - pip install tox
 
 # Run each environment separately so we get errors back from all of them.
-env:
-  - TOX_ENV=py36
-  - TOX_ENV=pep8
-  - TOX_ENV=docs
-script:
-  - tox -e $TOX_ENV
+jobs:
+  include:
+    - stage: test
+      name: "Tests"
+      env: TOX_ENV=py36
+      script: tox -e $TOX_ENV
+    - stage: pep8
+      name: "Pep8 Check"
+      env: TOX_ENV=pep8
+      script: tox -e $TOX_ENV
+    - stage: deploy
+      name: "Deploy to CodeArtifact"
+      script: ./scripts/deploy.sh
+
+stages:
+  - test
+  - pep8
+  - name: deploy
+    if: branch = master AND NOT type in (pull_request)
 
 # Control the branches that get built.
 branches:
