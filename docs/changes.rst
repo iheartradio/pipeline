@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Version 2.6.0
+==============
+
+- Support for generation of service level RabbitMQ bindings diagrams.
+
 Version 2.5.0
 ==============
 
