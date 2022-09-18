@@ -28,6 +28,7 @@
     "numVolumes": 1,
     "offers": [
         {
+            "action": "upsert",
             "commercialModelType": "SubscriptionModel",
             "licensee": "iheart",
             "territoryCode": "WW",
@@ -39,6 +40,7 @@
             "validThrough": "2100-01-01T00:00:00.000000+00:00"
         },
         {
+            "action": "upsert",
             "commercialModelType": "AdvertisementSupportedModel",
             "licensee": "iheart",
             "territoryCode": "WW",
@@ -99,6 +101,7 @@
             "number": 1,
             "offers": [
                 {
+                    "action": "upsert",
                     "commercialModelType": "SubscriptionModel",
                     "licensee": "iheart",
                     "territoryCode": "AU",
@@ -110,6 +113,7 @@
                     "validThrough": "2100-01-01T00:00:00.000000+00:00"
                 },
                 {
+                    "action": "upsert",
                     "commercialModelType": "AdvertisementSupportedModel",
                     "licensee": "iheart",
                     "territoryCode": "AU",

@@ -295,6 +295,7 @@ Args:
 """
 
 offer = SchemaAllRequired({
+    'action': str,
     'commercialModelType': CommercialModelType,
     'licensee': str,
     Optional('price'): Any(None, str),
