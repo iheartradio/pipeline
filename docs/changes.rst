@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 2.7.0
+==============
+
+- Adding an ``action`` key in the offers schema, this specifies the
+  action [``upsert`` or ``takedown``] at offers level.
+
 Version 2.6.0
 ==============
 

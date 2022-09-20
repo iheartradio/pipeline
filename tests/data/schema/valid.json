@@ -29,6 +29,7 @@
     "numVolumes": 1,
     "offers": [
         {
+            "action": "upsert",
             "commercialModelType": "AdvertisementSupportedModel",
             "licensee": "iHeartMedia",
             "territoryCode": "US",
@@ -101,6 +102,7 @@
             },
             "offers": [
                 {
+                    "action": "upsert",
                     "commercialModelType": "SubscriptionModel",
                     "licensee": "iHeartMedia",
                     "territoryCode": "US",

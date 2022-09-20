@@ -1,4 +1,5 @@
 {
+    "action": "upsert",
     "commercialModelType": "SubscriptionModel",
     "licensee": "iheart",
     "territoryCode": "US",
